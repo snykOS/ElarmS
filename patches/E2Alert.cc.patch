@@ -1,0 +1,91 @@
+diff --git a/trunk/epic/E2/E2Alert.cc b/trunk/epic/E2/E2Alert.cc
+index 8c03bbc..24b692d 100755
+--- a/trunk/epic/E2/E2Alert.cc
++++ b/trunk/epic/E2/E2Alert.cc
+@@ -497,15 +497,15 @@ void E2Alert::sendEmail(E2Event *ev)
+ 
+     ev->email_sent = true;
+ 
+-    string alert_time = TimeString::toString(ev->alert_time);
+-    string otime = TimeString::toString(ev->time);
++    string alert_time = TimeString::toString(ev->alert_time,3);
++    string otime = TimeString::toString(ev->time,3);
+ 
+     // 2. Message body
+     stringstream body;
+     if(num_sent > 1) {
+ 	body << "UPDATED ALERT: \n";
+     }
+-    body <<  "        ID      Alert UTC Time      Origin UTC Time  Mag TpMag PdMag     Lat      Lon\n";
++    body <<  "        ID      Alert UTC Time      Origin UTC Time    Mag TpMag PdMag     Lat      Lon\n";
+ 
+     snprintf(s, sizeof(s), "%10d %s  %s %4.1f  %4.1f  %4.1f %7.3f %8.3f\n", ev->eventid, alert_time.c_str(),
+ 		otime.c_str(), ev->evmag, ev->tpmag, ev->pdmag, ev->lat, ev->lon);
+@@ -544,13 +544,37 @@ void E2Alert::sendEmail(E2Event *ev)
+ 
+     body << "\n http://maps.google.com?q=@" << ev->lat << "," << ev->lon;
+ 
++    // Triggers
++    char labels[] = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
++    vector<E2Trigger *> trigs;
++    for(set<E2Trigger *>::iterator jt = ev->triggers.begin(); jt != ev->triggers.end(); jt++) {
++        int i;
++        for(i = 0; i < (int)trigs.size() && trigs[i]->staId() != (*jt)->staId(); i++);
++        if(i == (int)trigs.size()) {
++            trigs.push_back(*jt);
++        }
++    }
++    // sort by time
++    sort(trigs.begin(), trigs.end(), sortTrigs);
++    body << "\n\n";
++    body << "    sta  net chn         time   tpmag   pdmag\n";
++    for(int i = 0; i < (int)trigs.size(); i++) {
++        char c = (i < 35) ? labels[i] : ' ';
++        for(set<E2Trigger *>::iterator jt = ev->triggers.begin(); jt != ev->triggers.end(); jt++) {
++            if(trigs[i]->staId() == (*jt)->staId()) {
++                body << (*jt)->toEmailString(c).c_str() << "\n";
++            }
++        }
++    }
++
++
+     // 3. Subject
+     if(num_sent > 1) {
+-	snprintf(s, sizeof(s), "\"E2 Update: M %.2f, nT %d, %.3f, %.3f, %s\"",
++	snprintf(s, sizeof(s), "\"EPIC Update: M %.2f, nT %d, %.3f, %.3f, %s\"",
+ 		ev->evmag, ev->nT, ev->lat, ev->lon, otime.c_str());
+     }
+     else { 
+-	snprintf(s, sizeof(s), "\"E2 ALERT: M %.2f, nT %d, %.3f, %.3f, %s\"",
++	snprintf(s, sizeof(s), "\"EPIC ALERT: M %.2f, nT %d, %.3f, %.3f, %s\"",
+ 		ev->evmag, ev->nT, ev->lat, ev->lon, otime.c_str());
+     }
+     string subject = s;
+@@ -571,24 +595,12 @@ void E2Alert::sendEmail(E2Event *ev)
+         return;
+     }
+ 
+-    char labels[] = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+-    vector<E2Trigger *> trigs;
+-    for(set<E2Trigger *>::iterator jt = ev->triggers.begin(); jt != ev->triggers.end(); jt++) {
+-	int i;
+-	for(i = 0; i < (int)trigs.size() && trigs[i]->staId() != (*jt)->staId(); i++);
+-	if(i == (int)trigs.size()) {
+-	    trigs.push_back(*jt);
+-	}
+-    }
+-    // sort by time
+-    sort(trigs.begin(), trigs.end(), sortTrigs);
+-
+     // make url for google static map
+     fprintf(fp,
+-"http://maps.googleapis.com/maps/api/staticmap?size=300x300&maptype=hybrid&markers=size:mid%%7Ccolor:red%%7C%6.3f,%8.3f", ev->lat, ev->lon);
++"http://maps.googleapis.com/maps/api/staticmap?size=300x300&maptype=hybrid&markers=size:mid%%7Ccolor:red%%7C%.3f,%.3f", ev->lat, ev->lon);
+     for(int i = 0; i < (int)trigs.size() && i < 35; i++) {
+ 	// 32 (is %7C = '|' one char or 2 or 3?) characters per marker
+-	fprintf(fp, "&markers=size:mid%%7Clabel:%c%%7C%6.3f,%8.3f", labels[i], trigs[i]->getLat(), trigs[i]->getLon());
++	fprintf(fp, "&markers=size:mid%%7Clabel:%c%%7C%.3f,%.3f", labels[i], trigs[i]->getLat(), trigs[i]->getLon());
+     }
+     fprintf(fp, "&sensor=false\n");
+     fprintf(fp, "%s\n\n", body.str().c_str());
+

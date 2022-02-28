@@ -1,0 +1,110 @@
+# decimod configuration
+
+# File containing an integer id. Defaults to 1. Can be initialized before starting the program.
+EventIDFile		lastdmevent.id
+
+# input messages. ActiveMQ login, password and IP address
+AlgorithmUser		decimod
+AlgorithmPassword	decimod
+AlgorithmURI		failover:(tcp://localhost:61616)
+
+# Input topic group used by the contributing algorithms. 
+# For example, eew.alg.elarms.data, eew.alg.vs.data, eew.alg.onsite.data
+AlgorithmTopic		eew.alg.*.data
+
+# output messages. ActiveMQ login, password and IP address. This can be a different ActiveMQ
+AlertUser		decimod
+AlertPassword		decimod
+AlertURI		failover:(tcp://localhost:61616)
+
+# Output topic. This topic is read by the UserDisplay program and other application programs.
+# See UserDisplay/app.properties: DMSubscriptionID
+AlertTopic		eew.sys.dm.data
+
+# All messages to stdout are also sent to this topic
+LogURI			failover:(tcp://localhost:61616)
+LogTopic		eew.sys.log.data
+
+# read heartbeats from HeartbeatInTopic and forward to HeartbeatOutTopic
+HeartbeatInTopic        eew.alg.*.hb
+HeartbeatOutTopic       eew.sys.dm.hb
+
+# the heartbeat name
+HeartbeatSender		dm.${HOSTNAME}
+HeartbeatOriginator	dm.${HOSTNAME}
+
+
+# discard dm and algorithm events older than this.
+DMEventTimeoutSecs	600
+AlgEventTimeoutSecs	600
+
+# event association criteria
+MaxMisfit		2.0
+MaxDistkmToEvent	100.0
+MaxTimeToEvent		30.0
+
+# filter settings: An alert will only be sent if the DM likelihood is >= DmMinLikelihood
+DmMinLikelihood		0.4
+
+# algorithm events will be rejected if their attributes are outside of these limits
+MinMagnitude		0.0
+MaxMagnitude		10.0
+MaxMagUncer		10.0
+MaxLatUncer		10.0
+MaxLonUncer		10.0
+MinDepthKm		-5.0
+MaxDepthKm		500.0
+MaxDepthUncer		500.0
+MaxOriginTimeUncer	60.0
+MinLikelihood		 0.0
+
+# Send alerts only for events within one of the following regions, with a magnitude >= the region MinMag
+#Regions CA,PNW
+Regions IL
+IL_MinPGA 0.0
+IL_MinPGV 0.0
+IL_MinMMI 0.0
+IL_MinMag 3.5
+IL_latlon 34.0,32.5,34,37.5,29.0,37.5,29.0,32.5,34.0,32.5
+
+#CA_MinMag 3.0
+#CA_latlon 37.43,-117.76,39,-120,42,-120,42,-125,42,-126,40,-126,34.5,-121.25,31.5,-119.26405,31.5,-113.8930,34.5,-114,37.43,-117.76
+
+#PNW_MinMag 3.0
+#PNW_latlon 42.0,-122.70000,42.0,-121.41670,42.0,-120.00000,42.0,-117.00000,49.0,-117.00000,50.0,-117.00000,50.0,-128.10000,47.99591,-128.10000,47.99591,-126.77735,45.35223,-125.93440,43.0,-126.00000,42.0,-126.00000,42.0,-125.16666,42.0,-122.70000
+
+# if DM gets an algorithm alert with magnitude X where X>6, then no alert will be issued until
+# a 2nd algorithm reports an event with a magnitude greater than X-1.
+TwoAlgMagnitude		10.0
+
+FaultInfoMinMag 6.0
+
+DMSystemName    dm
+
+PublishChangesOnly true
+
+AlgNames epic
+
+AlgCoreContributors epic
+
+ForwardContributors none
+
+UseGMContour false
+
+epic_alert_alone true
+
+UseRepublishThreshold true
+
+CHANGE_THRESHOLD_MAG         0.10
+CHANGE_THRESHOLD_MAG_UNCER   0.01
+CHANGE_THRESHOLD_LAT         0.01
+CHANGE_THRESHOLD_LAT_UNCER   0.01
+CHANGE_THRESHOLD_LON         0.01
+CHANGE_THRESHOLD_LON_UNCER   0.01
+CHANGE_THRESHOLD_DEPTH       0.50
+CHANGE_THRESHOLD_DEPTH_UNCER 0.00
+CHANGE_THRESHOLD_OTIME       0.20
+CHANGE_THRESHOLD_OTIME_UNCER 0.10
+CHANGE_THRESHOLD_LKLHD       0.01
+                                                                      111,1         Bot
+

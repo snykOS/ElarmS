@@ -1,0 +1,6 @@
+# BlackList updated at 2017/12/05 JA
+# NOTE: ONSITE SETS STATUS OF TRIGGER BASED ON Z CHANNEL, HORIZ DO NOT HAVE BLACK STATUS UNLESS EXPLICITLY STATED IN THIS FILE, SO WILL BE PROCESSED
+#
+#
+# Any update should include a comment line, stating date, reporter name, reason for adding station.  
+# followed by a list of channels ID in the format: NN.SSSSS.CCC.LL (N - Network, S - Station, C - Cahnnel, L - location) example: CE.35078.HNZ.--

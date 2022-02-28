@@ -1,0 +1,12 @@
+diff --git a/trunk/third_party/libtnstd/Lock.C b/trunk/third_party/libtnstd/Lock.C
+index 92f9290..89f284c 100755
+--- a/trunk/third_party/libtnstd/Lock.C
++++ b/trunk/third_party/libtnstd/Lock.C
+@@ -35,6 +35,7 @@ Usage Notes:
+ #include <fcntl.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
++#include <sys/sysmacros.h>
+ #ifdef _SOLARIS
+ #include <sys/mkdev.h>  // for major() and minor()
+ #endif
