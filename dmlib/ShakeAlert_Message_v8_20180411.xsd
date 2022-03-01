@@ -1,0 +1,442 @@
+﻿<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="event_message">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="core_info" minOccurs="1">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="mag" type="core_mag" minOccurs="1"/>
+              <xs:element name="mag_uncer" type="core_mag" minOccurs="1"/>
+              <xs:element name="lat" type="core_deg" minOccurs="1"/>
+              <xs:element name="lat_uncer" type="core_deg" minOccurs="1"/>
+              <xs:element name="lon" type="core_deg" minOccurs="1"/>
+              <xs:element name="lon_uncer" type="core_deg" minOccurs="1"/>
+              <xs:element name="depth" type="core_km" minOccurs="1"/>
+              <xs:element name="depth_uncer" type="core_km" minOccurs="1"/>
+              <xs:element name="orig_time" type="core_time" minOccurs="1"/>
+              <xs:element name="orig_time_uncer" type="core_sec" minOccurs="1"/>
+              <xs:element name="likelihood" type="xs:decimal" minOccurs="1"/>
+              <xs:element name="num_stations" type="xs:integer" minOccurs="0"/>
+            </xs:all>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contributors" type="contrib_information" minOccurs="0"/>
+        <xs:element name="fault_info" type="fault_information" minOccurs="0"/>
+        <xs:element name="gm_info" type="gm_information" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="orig_sys" type="xs:string" use="required"/>
+      <xs:attribute name="version" type="xs:integer" use="required"/>
+      <xs:attribute name="message_type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="new"/>
+            <xs:enumeration value="update"/>
+            <xs:enumeration value="delete"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="category" type="xs:string" default="live" use="optional"/>
+      <xs:attribute name="timestamp" type="xs:string" default="-" use="optional"/>
+      <xs:attribute name="alg_vers" type="xs:string" default="-" use="optional"/>
+      <xs:attribute name="instance" type="xs:string" default="-" use="optional"/>
+      <xs:attribute name="ref_id" type="xs:string" default="-" use="optional"/>
+      <xs:attribute name="ref_src" type="xs:string" default="-" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="contrib_information">
+    <xs:sequence>
+      <xs:element name="contributor" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="alg_instance" type="xs:string" use="required"/>
+          <xs:attribute name="alg_name" type="xs:string" use="required"/>
+          <xs:attribute name="alg_version" type="xs:string" use="required"/>
+          <xs:attribute name="category" type="xs:string" use="required"/>
+          <xs:attribute name="event_id" type="xs:string" use="required"/>
+          <xs:attribute name="version" type="xs:integer" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fault_information">
+    <xs:sequence>
+      <xs:element name="finite_fault" type="fault_description" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gm_information">
+    <xs:all>
+      <xs:element name="gmpoint_obs" type="gmpoint_information" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="gmpoint_pred" type="gmpoint_information" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="gmcontour_pred" type="gmcontour_information" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="gmmap_pred" type="gmmap_information" minOccurs="0" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="fault_description">
+    <xs:annotation>
+      <xs:documentation>finite-fault description from the GNSS working group</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="confidence" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="segment" type="segment_information" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="global_uncertainty" type="uncertainty_information" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="atten_geom" type="xs:boolean" use="required"/>
+    <xs:attribute name="segment_number" type="xs:integer" use="required"/>
+    <xs:attribute name="segment_shape" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="gmpoint_information">
+    <xs:sequence>
+      <xs:element name="pgd_obs" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="obs" type="displacement_observation" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pgv_obs" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="obs" type="velocity_observation" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pga_obs" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="obs" type="acceleration_observation" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pgd_pred" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pred" type="displacement_prediction" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pgv_pred" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pred" type="velocity_prediction" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pga_pred" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pred" type="acceleration_prediction" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gmcontour_information">
+    <xs:sequence>
+      <xs:element name="contour" minOccurs="1" maxOccurs="10">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="MMI" type="core_mmi" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="PGA" type="core_cm_s_s" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="PGV" type="core_cm_s" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="polygon" type="contour_polygon" minOccurs="1" maxOccurs="1"/>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:nonNegativeInteger" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="gmmap_information">
+    <xs:sequence>
+      <xs:element name="grid_field" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="index" type="xs:int"/>
+          <xs:attribute name="name" type="GridFieldParameterNameType"/>
+          <xs:attribute name="units" type="UnitsType"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="grid_data" type="GridDataType"/>
+    </xs:sequence>
+    <xs:attribute name="number" type="xs:nonNegativeInteger" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="segment_information" mixed="true">
+    <xs:all>
+      <xs:element name="vertices" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="vertex" minOccurs="2" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="slip" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="ss" type="core_m" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ss_uncer" type="core_m" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ds" type="core_m" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ds_uncer" type="core_m" minOccurs="0" maxOccurs="1"/>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="uncertainty_information" mixed="true">
+    <xs:all>
+      <xs:element name="lon_trans" type="core_deg" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="lat_trans" type="core_deg" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="total_len" type="core_km" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="strike" type="core_deg" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="dip" type="core_deg" minOccurs="0" maxOccurs="1"/>
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="GridDataType" mixed="true"/>
+  <xs:complexType name="contour_polygon" mixed="true">
+    <xs:attribute name="number" type="xs:integer" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="displacement_observation">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="velocity_observation">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm_s" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="acceleration_observation">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm_s_s" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="displacement_prediction">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+      <xs:element name="value_uncer" type="core_cm_s" minOccurs="1"/>
+      <xs:element name="app_rad" type="core_km" minOccurs="1"/>
+      <xs:element name="time_uncer" type="core_sec" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="velocity_prediction">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm_s" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+      <xs:element name="value_uncer" type="core_cm_s" minOccurs="1"/>
+      <xs:element name="app_rad" type="core_km" minOccurs="1"/>
+      <xs:element name="time_uncer" type="core_sec" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="acceleration_prediction">
+    <xs:all>
+      <xs:element name="SNCL" type="sncl" minOccurs="1"/>
+      <xs:element name="value" type="core_cm_s_s" minOccurs="1"/>
+      <xs:element name="lat" type="core_deg" minOccurs="1"/>
+      <xs:element name="lon" type="core_deg" minOccurs="1"/>
+      <xs:element name="time" type="core_time" minOccurs="1"/>
+      <xs:element name="value_uncer" type="core_cm_s" minOccurs="1"/>
+      <xs:element name="app_rad" type="core_km" minOccurs="1"/>
+      <xs:element name="time_uncer" type="core_sec" minOccurs="1"/>
+    </xs:all>
+    <xs:attribute name="orig_sys" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="core_mag">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="Mw"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_deg">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="deg"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_km">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="km"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_time">
+    <xs:simpleContent>
+      <xs:extension base="xs:dateTime">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="UTC"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_sec">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="sec"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_cm">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="cm"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_m">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="m"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_cm_s">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="cm/s"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_cm_s_s">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="cm/s/s"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_g">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed="g"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="core_mmi">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="units" type="xs:string" use="required" fixed=""/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="sncl">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z0-9]{1,5}\.[a-zA-Z0-9]{1,2}\.[a-zA-Z0-9]{1,3}\.[a-zA-Z0-9-]{1,2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GridFieldParameterNameType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LAT">
+        <xs:annotation>
+          <xs:documentation>latitude (decimal degrees, north)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LON">
+        <xs:annotation>
+          <xs:documentation>longitude (decimal degrees, east)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PGA">
+        <xs:annotation>
+          <xs:documentation>peak ground acceleration (percent-g)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PGV">
+        <xs:annotation>
+          <xs:documentation>peak ground velocity (cm/s)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MMI">
+        <xs:annotation>
+          <xs:documentation>
+            instrumental intensity (Modified Mercalli Intensity units)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="UnitsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="deg">
+        <xs:annotation>
+          <xs:documentation>decimal degrees</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="dd">
+        <xs:annotation>
+          <xs:documentation>decimal degrees</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="pctg">
+        <xs:annotation>
+          <xs:documentation>
+            percent 'g' (i.e., percent of the nominal gravitational acceleration at the Earth's surface)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cms">
+        <xs:annotation>
+          <xs:documentation>centimeters per second</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ms">
+        <xs:annotation>
+          <xs:documentation>meters per second</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cm/s">
+        <xs:annotation>
+          <xs:documentation>centimeters per second</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="cm/s/s">
+        <xs:annotation>
+          <xs:documentation>centimeters per second per second</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="mmi">
+        <xs:annotation>
+          <xs:documentation>Modified Mercalli Intensity</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="none">
+        <xs:annotation>
+          <xs:documentation>
+            The quantity is a ratio, multiplier, or other dimensionless quantity.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="">
+        <xs:annotation>
+          <xs:documentation>The quantity has units explicitly in the name.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

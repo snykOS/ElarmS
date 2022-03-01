@@ -1,0 +1,47 @@
+"$Id: WPProperties.meta $"
+#
+# Table of configuration parameters for wplib
+# - add the variable name in the config file
+# - the type for the variable
+# - the default value or REQUIRED for a mandatory user-specified value, default value can not contain whitespace, may use empty quotes
+#   add SENSITIVE flag to not expose full text in startup log, ie passwords.
+# - comment on variable to be included in example generated file
+
+# Metadata properties
+ChannelFile                 string REQUIRED         # text file with channel information 
+ChannelFilter               string REQUIRED         # limit to only using channels e.g. HH|HN|HL
+VelocityThreshold           float 0.8 -1 1000       # default clipping threshold for velocity if unknown
+
+# black/greylist
+ChannelBlackList            string REQUIRED         # channels to be dropped by WPlib, use none to disable
+ChannelGreyList             string REQUIRED         # channels to be dropped by application, use none to disable
+ReadIntervalWhiteList       int 60                  # Interval in seconds to wait before checking white list for any change. Use value 0 to disable subsequent refresh
+ReadIntervalBlackGreyList   int 60                  # Interval in seconds to wait before checking black and grey lists for any changes. Use value 0 to disable subsequent refresh
+
+# Telemetry processing parameters
+ThreadCount                 int REQUIRED 1 1000     # max number of threads allowed when processing packets
+IgnoreFirstPackets          int REQUIRED            # number of packets to ignore after a gap, use -1 to disable gap checking
+PacketLatencyThreshold      int 0 -3600 3600        # Drop packets older than this threshold (seconds), use 0 to disable.  Negative for debug print.  Default is 0.
+
+# Earthworm config 
+EWConfig                    string REQUIRED    # config file for earthworm params
+
+# Multicast properties to be deprecated
+MulticastAddress            string not_specified    # for multicast
+QMAMulticastAddress         string not_specified    # for multicast
+IFID                        string not_specified    # network device for multicast
+
+# FileFeeder
+FLfile                      string ""               # file containing the list of files to be processed by file feeder
+FLpktlen                    int 0                   # desired packet length during file feed
+FLRTfeed                    bool false              # flag for file feed to determine if replay should be close to real time
+FLdebug                     bool false              # when debug is true sac files will be written, one per channel per hour
+
+# Tankfile replay properties
+ReplayFile                  string ""               # tankfile replay file name, must be zipped (.gz extension)
+ReplayRealTime              bool false              # mimic real time
+DoReplay                    bool false              # replay from tankfile using ewfeeder module
+
+# CMS config parameters for dynamic blacklist notification
+CMSConfigFile               string REQUIRED         # CMS config for recenter notification, use false to disable
+EEWChannel                  string REQUIRED         # CMS notification topic, use false to disable

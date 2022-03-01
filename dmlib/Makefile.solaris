@@ -1,0 +1,58 @@
+#QLIB2_DIR	= ../../elarms/qlib2
+
+AMQ_INCL	= -I../../opensrc/include/activemq-cpp-3.4.2
+
+APR_INCL	= -I../../opensrc/include/apr-1
+
+XERCES_INCL	= -I../../opensrc/include
+
+QLIB2_INCL	= -I$(QLIB2_DIR)
+
+CC_SRCS = \
+	StaNetChanLoc.cpp  \
+	GMObservation.cpp \
+	GMPrediction.cpp \
+	CoreEventInfo.cpp \
+	AlgMessage.cpp \
+	ElarmsMessage.cpp  \
+	OnSiteMessage.cpp  \
+	VSMessage.cpp \
+	FinDerMessage.cpp \
+	GPSlipMessage.cpp \
+	DMMessage.cpp \
+	DMMessageEncoder.cpp \
+	DMMessageDecoder.cpp \
+	DMMessageSender.cpp  \
+	DMMessageReceiver.cpp \
+	HBConsumer.cpp \
+	HBProducer.cpp \
+	HBForward.cpp
+
+C_SRCS	=
+CC_OBJS	= $(CC_SRCS:%.cpp=%.o) 
+C_OBJS	= $(C_SRCS:%.c=%.o) 
+OBJS	= $(CC_OBJS) $(C_OBJS)
+
+NOWARN	= -erroff=wvarhidemem,temwhilespec,temspecend,hidevf
+
+CCC	= CC
+CCFLAGS	= -g -O0 $(AMQ_INCL) $(APR_INCL) $(QLIB2_INCL) $(XERCES_INCL) -library=stlport4 $(NOWARN)
+CFLAGS	= -g -O0
+
+DM_LIB	= libdm_lib.a
+
+$(DM_LIB): $(OBJS)
+	ar r $(DM_LIB) $(OBJS)
+
+%.o:	%.cpp
+	$(CCC) $(CCFLAGS) -c $<
+
+%.o:	%.c
+	$(CC) $(CFLAGS) -c $<
+
+install: $(DM_LIB)
+	cp *.a *.so ../../run/lib/
+
+clean:
+	-rm *.o *.a
+

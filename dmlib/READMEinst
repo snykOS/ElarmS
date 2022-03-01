@@ -1,0 +1,165 @@
+Instructions for the DM Message Library:
+
+Prerequisites to running the Decision Module Messaging:
+This description used Sun C and C++ compilers 5.9.
+
+There are several steps that need to be done. Since this was
+written in C++, one will need to install also a C++ API for ActiveMQ called
+C++ Messaging System (inconviniently abbreviating to CMS). Instead of calling
+it CMS, it will be called ActiveMQ-CPP. It can be found at:
+http://activemq.apache.org/cms/download.html .
+
+However, when installing it there are several dependencies that it itself
+carries which are listed in the ActiveMQ-CPP README file:
+--------------------------------------------------------------------------------
+Tool        Recommended Version
+-------------------------------
+autoconf    >= 2.61
+automake    >= 1.10
+libtool     >= 1.5.24
+APR         >= 1.3*
+APR-Util    >= 1.3* or higher
+CPPUnit     >= 1.10.2*
+libuuid     >= ?*
+
+* Requires that the Development package also be installed.
+--------------------------------------------------------------------------------
+
+Prior to ActiveMQ being installed, APR and APR-Util had to be installed on the
+Berkeley eew2 machine. Bot APR and APR-Util can be found here:
+http://apr.apache.org/download.cgi .
+
+When installing APR, APR-Util and ActiveMQ-CPP there are several useful
+environmental flags tha can be used:
+CC - indicates C compiler
+CFLAGS - the C compiler flags (i.e. -m64)
+CXX - indicates C++ compiler
+CXXFLAGS - the C++ compiler flags (i.e. -m64)
+
+APR
+---
+When installing APR run these commands:
+   ./configure --prefix=/desired/path/of/apr (i.e. I used /home/ncss/run/lib/apr)
+   make
+   make test
+   make install
+
+When running 'make test' keep in mind that test under the name 'testsockets'
+will probably fail. That is a problem with not havin IPv6 installed on the
+machine. ActiveMQ-CPP seems to run fine with APR installed this way. The
+documentation on the failed test can be found here:
+https://issues.apache.org/bugzilla/show_bug.cgi?id=45494 .
+
+APR-UTIL
+--------
+When installing APR-Util run these commands:
+   ./configure --with-apr=/path/of/apr 
+	         (path where APR is installed)
+	       --prefix=/desired/path/of/apr-util
+	         (path wher you want APR-Util installed)
+   make
+   make install
+
+After having installed APR and APR-Util, install ActiveMQ-CPP. 
+
+ACTIVEMQ-CPP
+------------
+To install ActiveMQ-CPP, one can download the
+activemq-cpp-library-3.1.0-src.tar file. However, when extracted, some of the
+source files that have names over 24 characters long, have their names get cut off
+
+
+However, don't download the activemq-cpp-library-3.1.0-src.tar file. When untared, some of
+the source files that have names over 24 characters long get cut off. During
+installation, the compiler won't be able to target the source files and
+installation won't go through. In order to get a hold of nontrunkated
+ActiveMQ-CPP package, use SVN to get a non-tarred copy. The instructions are
+located at:
+http://activemq.apache.org/cms/source.html .
+Replace the three extracted directories containing the source files with the
+you got using SVN:
+activemq-cpp-library-3.1.0/src/main/activemq
+activemq-cpp-library-3.1.0/src/main/cms
+activemq-cpp-library-3.1.0/src/main/decaf
+
+Run these commands:
+   ./configure --with-apr=/path/of/apr 
+	         (path where APR is installed)
+	       --with-apr-util=/path/of/apr-util
+	         (path where APR-Util is installed)
+	       --prefix=/desired/path/of/activemq-cpp
+	         (path where you want ActiveMQ-CPP installed)
+   make
+   make test
+   make install
+
+
+When installing using cc as C compiler and CC as C++ compiler version 5.8, a bug
+was encountered that requires two ActiveMQ-CPP source files to be
+modified. They are located in:
+activemq-cpp-library-3.1.0/src/main/activemq/util . 
+First is named PrimitiveValueConverter.h and second is named
+PrimitiveValueConverter.cpp. These lines might need to be modified in both
+files to explicitly state the type of value to convert.
+When installing ActiveMQ-CPP on Sun 12, this problem was not encountered.
+
+-----PrimitiveValueConverter.h(line 71) and PrimitiveValueConverter.cpp(line 34)
+FROM:
+    bool PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    bool PrimitiveValueConverter::convert<bool>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 74) and PrimitiveValueConverter.cpp(line 55)
+FROM:
+    unsigned char PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    unsigned char PrimitiveValueConverter::convert<unsigned char>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 77) and PrimitiveValueConverter.cpp(line 76)
+FROM:
+    char PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    char PrimitiveValueConverter::convert<char>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 80) and PrimitiveValueConverter.cpp(line 97)
+FROM:
+    short PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    short PrimitiveValueConverter::convert<short>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 83) and PrimitiveValueConverter.cpp(line 120)
+FROM:
+    int PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    int PrimitiveValueConverter::convert<int>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 86) and PrimitiveValueConverter.cpp(line 145)
+FROM:
+    long long PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    long long PrimitiveValueConverter::convert<long long>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 89) and PrimitiveValueConverter.cpp(line 172)
+FROM:
+    float PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    float PrimitiveValueConverter::convert<float>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 92) and PrimitiveValueConverter.cpp(line 193)
+FROM:
+    double PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    double PrimitiveValueConverter::convert<double>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 95) and PrimitiveValueConverter.cpp(line 216)
+FROM:
+    std::string PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    std::string PrimitiveValueConverter::convert<std::string>( const PrimitiveValueNode& value ) const
+
+-----PrimitiveValueConverter.h(line 98) and PrimitiveValueConverter.cpp(line 247)
+FROM:
+    std::vector<unsigned char> PrimitiveValueConverter::convert( const PrimitiveValueNode& value ) const
+TO:
+    std::vector<unsigned char> PrimitiveValueConverter::convert<std::vector<unsigned char> >( const PrimitiveValueNode& value ) const
+

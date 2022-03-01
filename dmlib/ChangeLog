@@ -1,0 +1,29 @@
+=======================================
+Changes in 2.0.23 2016-05-24
+========================================
+Claude Felizardo
+o) Added FinDerMessage::clearRupturePredictions() which is needed if the object is used between calls to DMMessageSender::sendMessage().
+o) Added DMLib::getVersion() which returns the version string of this library.
+=======================================
+Changes in 2.0.22 2016-01-25
+========================================
+Ivan Henson
+o) Added check for NULL return from parse_data() in CoreEventInfo class
+o) Added DMReviewMessage class to enable DMReview tool to send cancel message to the DM
+=======================================
+Changes in 2.0.11 2014-04-08
+========================================
+Ivan Henson
+o) Removed "throw()" from subclasses using cms::MessageListener::onMessage() for activemq-cpp-library-3.8.2
++	DMMessageReceiver,HBConsumer, HBForward
+o) Removed activemq::library::ActiveMQCPP::initializeLibrary from DMMessageSender.cpp. This should not have been in
+the dmlib, since it should be called once and only once outside of the library. This did not cause problems for
+older releases but does cause problems for activemq-cpp-library-3.8.2.
+o) Added DMMessageReceiver and DMMessageSender constructors with brokerURI string input. This allows you to control
+the URI parameters such as failover (failover:(tcp://localhost:61616,anotherhost:61616))
++	DMMessageReceiver(const std::string& brokerUri,const std::string& username,const std::string& password,const std::string& dName)
++	DMMessageSender(const string& brokerUri,const string& username,const string& password,const string& destination)
+o) Added DMMessageReceiver and DMMessageSender constructors with cms::Connection input.
++	DMMessageReceiver(cms::Connection *connection, const std::string& dName);
++	DMMessageSender(cms::Connection *connection, const string& destination);
+o) Added static const char *version="libdm_version 2.0.11 2014-04-08"; so "strings libdm.a | grep libdm_version" returns the version number.

@@ -1,0 +1,521 @@
+Documentation of the Decison Module Messaging Library:
+--------------------------------------------------------------------------------
+
+Files Summary:
+
+CoreEventInfo - contains the class that is the parent for all other Message
+Classes. The class has all the variables shared between all algorithms such as
+magnitude, latitutde, longitude etc.
+
+PG_Info - contains classes that are used to store observations and
+predictions in the algorithm messages. For Elarms and VirtualSeismologist
+algorithms, PGVObservation and PGAObservation are used. For OnSite
+PGVPrediction is used. Also, it contains a StaNetChanLoc class that is used by
+the library. PG_Info class serves as a parent for the PGV/PGAObservation
+classes.
+
+ElarmsMessage - contains message class to be used by the Elarms algorithm. It
+is a child of the CoreEventInfo class, also stores PGV/PGAObservations. 
+
+VSMessage - is the same as ElarmsMessage except with a different name.
+
+OnSiteMEssage - contains message class to be used by the OnSite algorithm. It
+is a child of the CoreEventInfo just like Elarms/VSMessage, but stores
+PGVPredictions instead.
+
+DMMessageSender - the class that implements ActiveMQ messaging. After this
+class is created, it accepts either Elarms, VS, or OnSite Message objects,
+formats the properly and sends them to the designated ActiveMQ server.
+
+Description:
+--------------------------------------------------------------------------------
+
+CoreEventInfo:
+--------------
+Variables:
+id - Event ID
+version - Message version (0 being first)
+magnitude - Magnitude of the event
+magnitude_error - Magnitude Error of the event
+latitude - Location Latitude of the event
+latitude_error - Location Latitude error
+longitude - Location Longitude of the event
+longitude_error - Location Longitude error
+origin_time - Origin Time of the even (note: stored in string format
+"yyyy-mm-ddThh:mm:ss.ssssZ". For example: 2010-03-15T14:54:01.1203Z"
+origin_time_error - Origin Time error (note: stored in double format)
+likelyhood - Likelyhood estimation that the event is real
+
+Also, magnitude, magnitude_error, latitude, latitude_error, longitude,
+longitude_error, origin_time, origin_time_error have associated string
+variables that indicate the units of these variables. They are set to most
+common units in use when a Message object is initialized, but can be changed
+if one wants to.
+
+In order to be able to create a Message object, you must define all of the
+above variables. Consider them to be necessary for the message to be
+valid. Message should not be sent without having all the variables defined. A
+message object can be created without having to define the variables, but they
+will all be set to default values (for example -9.9, -99.999, etc) to indicate
+that they have not be set.
+--------------------
+sent_flag - this variable is updated by DMMessageSender everytime it is given
+the object. It is used to keep track whether or not he message has been sent
+before and if the version needs to be updated. i.e. you create a VSMessage
+VSM001 with all the minimum necessary parameters of CoreEventInfo set. You
+have the DMMessageSender send the message. At that point DecisionModule
+receives your message as Version 0. After a second, new information comes in
+and you decide to add several PGV/PGAObservations (or PGVPredction in OnSite's
+case). While the Message object is updated from TRUE to FALSE and Version is
+updated from 0 to 1, indicating that this is an updated Message object. 
+----------------------------------------
+Methods:
+CoreEventInfo - the constructor. Instantiates the object. 
+Default values of the variables if not provided (set to values that are
+outside of acceptable bounds for that variable):
+
+id=-9
+magnitude=-9.9,
+magnitude_error=-9.9,
+latitude=-999.9,
+latitude_error=-999.9,
+longitude=-999.9,
+longitude_error=-999.9,
+depth=-9.9,
+depth_error=-9.9,
+origin_time="2999-12-31T24:60:60.0000Z",
+origin_time_error=-9.9,
+likelyhood=-9.9
+magnitude_error_units("Mw"),
+latitude_units("deg"),
+latitude_error_units("deg"),
+longitude_units("deg"),
+longitude_error_units("deg"),
+depth_units("km"),
+depth_error_units("km"),
+origin_time_units("UTC"),
+origin_time_error_units("sec")
+--------------------
+For each Variable except version and sent_flag there is a related SET and GET
+method. Both SET returns the current value, GET returns the value that it has
+just assigned.
+ set/getID(int i);
+ set/getMagnitude(float mag);
+ set/getMagnitudeError(float mag_err);
+ set/getLatitude(float lat);
+ set/getLatitudeError(float lat_err);
+ set/getLongitude(float lon);
+ set/getLongitudeError(float lon_err);
+ set/getDepth(float dep);
+ set/getDepthError(float dep_err);
+ set/getOriginTime(string o_time);
+ set/getOriginTimeError(float o_time_err);
+ set/getLikelyhood(float lklyhd);
+--------------------
+Same goes for Units variables that contains strings of the said above
+Variables.
+ set/getMagnitudeUnits(string mag_units);
+ set/getMagnitudeErrorUnits(string mag_err_units);
+ set/getLatitudeUnits(string lat_units);
+ set/getLatitudeErrorUnits(string lat_err_units);
+ set/getLongitudeUnits(string lon_units);
+ set/getLongitudeErrorUnits(string lon_err_units);
+ set/getDepthUnits(string dep_units);
+ set/getDepthErrorUnits(string dep_err_units);
+ set/getOriginTimeUnits(string o_time_units);
+ set/getOriginTimeErrorUnits(string o_time_err_units);
+--------------------
+updateSent - called by DMMessageSender to indicate the Message was handled and
+sent by DMMessageSender. Used to make sure that the Version variable is kept updated.
+----------------------------------------
+PG_Info:
+----------------
+Contain classes that are primarily used internally in the library to store
+information. However, in order to review what is contained inside the message,
+one needs to know how these work in order to access the information.
+
+Included classes:
+StaNetChanLoc - used to create a SNCL.
+
+PG_Info - parent class to PGV/PGAObservations. Since the observation classes
+are the same except in the name to distinguish what type of value they carry,
+
+PG_Info is used to create a generic observation class.
+
+PGVObservation - a child of both PG_Info and StaNetChanLoc class. Contains
+Velocity observations of the Elarms and VirtualSeismologist algorithms. 
+
+PGAObservation - a child of both PG_Info and StaNetChanLoc class. Instead
+contains Acceleration observations of the Elarms and VirtualSeismologist
+algorithms. 
+
+PGVPrediction - a child of only StaNetChanLoc class since it contains
+different variables than the Observation class. 
+----------------
+StaNetChanLoc:
+--------------
+Variables:
+string network
+string station
+string channel
+string location - selfexplanatory. No default values when initialized.
+
+Methods:
+set/getStation(string sta)
+set/getNetwork(string net)
+set/getChannel(string chan)
+set/getLocation(string loc)
+
+getSNCL() - returns one string in the format of
+"STATION.NETWORK.CHANNEL.LOCATION", for example "ORV.BK.HHZ.00". If the
+corresponding value is empty, the delimiting dot is still put in, "ORV..HHZ."
+
+operator== - overloaded comparison operators, just in case.
+operator!= 
+
+
+PG_Info:
+--------
+This is a parent class for the PGV/PGAObservation classes used by Elarms and
+VSMessage classes.
+
+Variables:
+double observation - contains PeakGroundVelocity or PeakGroundAcceleration.
+float latitude - latitude of the observation
+float longitude - longitude of the observation
+(note: no lat/lon errors since these are observations)
+string observation_time - observation time in the same format as origin time, 
+"yyyy-mm-ddThh:mm:ss.ssssZ".
+--------------------
+Methods:
+----------
+ PG_Info - constructor. Although it does default its values, the child classes
+ override them.
+
+ set/getObservation(double obs)
+ set/getLatitude(float lat)
+ set/getLongitude(float lon)
+ set/getObservationTime(string o_time)
+----------
+ set/getObservationUnits(string obs_units)
+ set/getLatitudeUnits(string lat_units)
+ set/getLongitudeUnits(string lon_units)
+ set/getObservationTimeUnits(string o_time_units)
+----------
+ operator==
+ operator!= - overloaded comparison operators, just in case. 
+--------------------
+
+PGVObservation
+--------------
+Child class of PG_Info and StaChanNetLoc classes. Contains PeakGroundVelocity
+observation with the related SNCL, latitude, and longitude.
+Has the same methods as PG_Info, excepth the constructor.
+-----
+PGVObservation - the only method the distinguishes PGVObservation and
+PGAObservation, since the default Observation Unit value is set to "cm/s"
+(instead of "g"). Here are the default values of PGVObservation if not
+specified:
+ string sta=""
+ string net="" 
+ string chan="" 
+ string loc=""
+ double obs = -9.9999 
+ float lat = -999.9999 
+ float lon = -999.9999
+ string o_time = "2999-12-31T24:60:60.0000Z"
+ string obs_units = "cm/s" <----- Different from PGAObservation
+ string lat_units = "deg"
+ string lon_units = "deg"
+ string o_time_units = "UTC"
+--------------------
+
+PGAObservation
+--------------
+Child class of PG_Info and StaChanNetLoc classes. Contains PeakGroundAcceleration
+observation with the related SNCL, latitude, and longitude.
+Has the same methods as PG_Info, except the constructor.
+-----
+PGAObservation - the only method the distinguishes PGVObservation and
+PGAObservation, since the default Observation Unit value is set to "g"
+(instead of "cm/s"). Here are the default values of PGAObservation if not
+specified:
+ string sta=""
+ string net="" 
+ string chan="" 
+ string loc=""
+ double obs = -9.9999 
+ float lat = -999.9999 
+ float lon = -999.9999
+ string o_time = "2999-12-31T24:60:60.0000Z"
+ string obs_units = "g" <----- Different from PGVObservation
+ string lat_units = "deg"
+ string lon_units = "deg"
+ string o_time_units = "UTC"
+--------------------
+
+PGVPrediction
+-------------
+Child class of StaChanNetLoc only. Similar to Observation class but contains
+different variables. 
+-----
+Variables:
+ double prediction - contains the PeakGroundVelocity prediction.
+ double prediction_error - contains PGV predction error.
+ float applied_radius - contains Applied Radius of the predcition.
+ float latitude - contains the Latitude of the prediction.
+ float longitude - contains the Longitude of the prediction. 
+And each of these variables also has an associated Units Variable.
+
+----------
+Methods:
+PGVPrediction - constructor. Here are the default values of PGVPredction if
+not specified:
+ string sta=""
+ string net="" 
+ string chan="" 
+ string loc=""
+ double pred = -9999.9999
+ double pred_err = -99.9999
+ float app_rad = -99.9999
+ float lat = -999.9999
+ float lon = -999.9999
+ string pred_units = "cm/s"
+ string pred_err_units = "cm/s"
+ string app_rad_units = "km"
+ string lat_units = "deg"
+ string lon_units = "deg"
+-----
+ set/getPrediction(double pred)
+ set/getPredictionError(double pred_err)
+ set/getAppliedRadius(float app_rad)
+ set/getLatitude(float lat)
+ set/getLongitude(float lon)
+-----
+ set/getPredictionUnits(string pred_units);
+ set/getPredictionErrorUnits(string pred_err_units);
+ set/getAppliedRadiusUnits(string app_rad_units);
+ set/getLatitudeUnits(string lat_units);
+ set/getLongitudeUnits(string lon_units);
+-----
+ operator==
+ operator!= - overloaded comparison operators, just in case. 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ElarmsMessage
+-------------
+Child class of CoreEventInfo. It adds list constructs in order store the PGV
+and PGAObservations made by Elarms system. 
+-----
+Variables (additional to CoreEventInfo):
+ list<PGVObservation> pgvelocity_observations - a list that accepts
+ PGVObservation objects.
+ list<PGAObservation> pgacceleration_observations - a list that accepts
+ PGAObservation objects.
+-----
+Methods (additional to CoreEventInfo);
+ getNumberVelocityObservations() - returns the number of PGVObservations in
+ the pgvelocity_observations list.
+ getNumberAccelerationObservation() - returns the number of PGAObservtions in
+ the pgacceleration_observations list.
+ (Since its not required that both Velocity and Acceleration observations be
+ put down in pairs, the two numbers can be different).
+-----
+ int addPGVObservation(const PGVObservation &A) -
+ int addPGAObservation(const PGAObservation &A) - These methods are used to add
+ the observations to the respective list. These two methods can add
+ PGV/PGAObservation object that you have created yourself.
+
+ int addPGVObservation(string sta,
+		       string net, 
+		       string chan, 
+		       string loc, 
+		       double obs, 
+		       float lat, 
+		       float lon,
+		       string o_time,
+		       string obs_units = "cm/s",
+		       string lat_units = "deg",
+		       string lon_units = "deg",
+		       string o_time_units= "UTC")
+ int addPGAObservation(string sta,
+		       string net, 
+		       string chan, 
+		       string loc, 
+		       double obs, 
+		       float lat, 
+		       float lon,
+		       string o_time,
+		       string obs_units = "g",
+		       string lat_units = "deg",
+		       string lon_units = "deg", 
+		       string o_time_units= "UTC") - These two methods create
+ the PGV/PGAObs objects for you when you provide the necessary inputs.
+
+
+
+
+Before adding the observation, the method goes through the list and makes sure
+that there is no duplicate obesrvation in the list. It is suggested to use
+these two methods since one won't have to create an extra object in the scope
+of your own program.
+All of the addPGV/PGAObservation methods return a 1 if the observation has
+been successfully added, and 0 if it was not added because the observation was
+already there. 
+
+There are six corresponding methods that delete the observations from the
+list in the same fashion. You either provide a PGVObservation object that
+equals the PGVObservation that you want deleted or all the values of the
+PGVObservation you want deleted. 
+ void deletePGVObservation(const PGVObservation &A)
+ void deletePGAObservation(const PGAObservation &A)
+ void deletePGVObservation(string sta,
+			   string net, 
+			   string chan, 
+			   string loc, 
+			   double obs, 
+			   float lat, 
+			   float lon,
+			   string o_time,
+			   string obs_units = "cm/s",
+			   string lat_units = "deg",
+			   string lon_units = "deg",
+			   string o_time_units= "UTC")
+ void deletePGAObservation(string sta,
+			   string net, 
+			   string chan, 
+			   string loc, 
+			   double obs, 
+			   float lat, 
+			   float lon,
+			   string o_time,
+			   string obs_units = "g",
+			   string lat_units = "deg",
+			   string lon_units = "deg",
+			   string o_time_units= "UTC")
+ void deletePGVObservation(string sta,
+			   string net, 
+			   string chan, 
+			   string loc)
+ void deletePGAObservation(string sta,
+			   string net, 
+			   string chan, 
+			   string loc) -These two methods on the other hand
+ delete all observations with the corresponding SNCL. However, the
+ observations_lists should not contain more than one observation per given SNCL. 
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+VSMessage
+---------
+If you look in the VSMessage.h file VSMessage is simply just a typedef of
+ElarmsMessage class. 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+OnSiteMessage
+-------------
+OnSiteMessage class is very similar to the ElarmsMessage class. It is a child
+of CoreEventInfo but instead of two lists it has one list,
+pgvelocity_predictions, which instead of PGV/PGAObservations stores
+PGVPredictions. 
+-------------
+Variables:
+ list<PGVPrediction> pgvelocity_predictions - a list the accepts PGVPrediction
+ objects.
+-------------
+Methods (in addition to CoreEventInfo methods):
+-------------
+ int addPGVPrediction(const PGVPrediction &A) - this method adds PGVPrediction 
+ object that you create youself to the pgvelocity_perdictions list.
+ int addPGVPrediction(string sta,
+ 		      string net, 
+		      string chan, 
+		      string loc, 
+		      double pred,
+		      double pred_err,
+		      float app_rad,
+		      float lat,
+		      float lon,
+		      string pred_units = "cm/s",
+		      string pred_err_units = "cm/s",
+		      string app_rad_units = "km",
+		      string lat_units = "deg",
+		      string lon_units = "deg") - this method adds
+ PGVPrediction object to the list by creating it using all the necessary
+ variables provided. 
+ void deletePGVPrediction(const PGVPrediction &A) - this method deletes
+ PGVPrediction from the pgvpredictions_list by finding a PGVPrediction that
+ equals the given PGVPrediction
+ void deletePGVPrediction(string sta,
+			  string net, 
+			  string chan, 
+			  string loc, 
+			  double pred,
+			  double pred_err,
+			  float app_rad,
+			  float lat, 
+			  float lon,
+			  string pred_units = "cm/s",
+			  string pred_err_units = "cm/s",
+			  string app_rad_units = "km",
+			  string lat_units = "deg",
+			  string lon_units = "deg") - this method deletes
+ PGVPrediction that has variables equal to the variables provided. It
+ essentially creates another PGVObject to compare to the objects contained in
+ the pgvpredictions_list. 
+ void deletePGVPrediction(string sta,
+			  string net, 
+			  string chan,
+			  string loc) - this method deletes PGVPrediction that
+ matches the SNCL provided. If there are more than one PGVPrediction with the
+ same SNCL (which shouldn't happen), all PGVPredictions will be deleted. 
+ 
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+DMMessageSender
+---------------
+The class that implements ActiveMQ.
+In order to use it, one must intialized one instance of this class. It will
+connect to the ActiveMQ server using the IP and port you will provide. It then
+waits to have a sendMessage method called in order to send a message over to
+the Decision Module.
+---------------
+Variables:
+ Connection* connection - an object that is the client's active connection to
+ the CMS (C++ Messaging Server) provider. 
+
+ Session* session - after a Connection is created, a CMS Session is created in
+ order to create message producers and consumers. 
+
+ Destination* destination - as the name implies it represents the endpoint the
+ messages are routed to by the Messaging broker. Clients create Destinations
+ and either send messages to them or wait for messages to be received from
+ them. DMMessageSender obviously just sends messages. There are two basic
+ types of destinations. "TOPIC" and "QUEUE". We will be using Destination of
+ type TOPIC because it impelemnts publish and subscribe semantics. 
+
+ MessageProducer* producer - this is the core of DMMessageSender. This is what
+ is used to send messages to the broker for distribution on various clients
+ listening for clients listening for messages on the TOPIC.
+
+ bool useTopic - boolean value indicating that DMMessageSender uses TOPIC
+ instead of QUEUE. 
+
+ std::string brokerURI - a string representing the IP and port where ActiveMQ
+ server is running. Format: "failover:(tcp://127.0.0.1:61616)". 61616 is the
+ default port for ActiveMQ installation. 
+
+ std::string tunnelName - a string token used to name the Destination. Lets
+ the ActiveMQ server know who is sending the message. For example, OnSite
+ algorithm could set tunnelName to "OnSite_Events".
+
+Methods:
+---------------
+ void sendMessage(OnSiteMessage &OSM)
+ void sendMessage(VSMessage &VM)
+ void sendMessage(ElarmsMessage &EM) - the method takes either ElarmsMessage,
+ OnSiteMessage or VSMessage object as input and depending on the type of
+ message received, formats the message appropriately. Every time the
+ sendMessage method is called, it also marks the Message that it was given as
+ sent. This way, when the message is resent after an update, the Version
+ number of the Message is advanced appropriately. 

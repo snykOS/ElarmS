@@ -1,0 +1,52 @@
+========================================
+Changes 10 May 2017
+========================================
+Ivan Henson
+Added the elarms overloaded version of the WP::process() method.
+Added code to ewfeeder.cc to replay directly from a tankfile.
+Fixed 64-bit related bug in ewfeeder.cc
+o) RawPacket.h - new class for arugment to overloaded process() method.
+o) wp.h and wp.cc
+	- added virtual bool process(RawPacket &raw) to WP class
+	- set WP.use_raw_packet = true and this overloaded process() function will be called.
+	Otherwise, the original one: process(Channel ch, TimeStamp starttime, int* samples, int size)
+	use_raw_packet defaults to false
+o) ewfeeder.h - added
+	- bool okDataType()
+	- bool readPacketFromFile()
+	- int datatype_error_cnt - used to report errors when replaying from a tankfile
+o) ewfeeder.cc
+	- Added call to second overloaded process() function when WP.use_raw_packet = true
+	- Added code to replay directly from a tankfile. This is controlled by two new parameters.
+	    Replay = the path/tankfile
+	    ReplayRealTime = true or false. If true, slow down the packet feed to simulate real-time. Defaults to false.
+	    The tankfile can be optionally gzipped.
+	    Added code to wait until the packet queues are empty when replaying.
+	    If replaying, the ChannelFile property is used in the call to DataChannel::readChannels(pFactory, channel_file)
+	    This allows command-line arguments, for example:
+	    	EWP2 replay=20040214_wheelerridge.01.tnk.gz ChannelFile=20040214_wheelerridge.dat
+	- removed call to prop->init(config), since this does not allow command-line arguments to be used for the
+	  WPPropertiesST properties, in particular the new Replay and ReplayRealTime properties and the ChannelFile.
+	- replaced sizeof(waveform_data_type) with data_size=4. The data size will always be 4 bytes with the restriction
+	  of datatype trh->datatype to "i4" or "s4".  The "typedef long waveform_data_type" in ewfeeder.h makes
+	  sizeof(waveform_data_type) = 8 bytes when compiled as a 64-bit executable.
+o) GetProp.cc and GetProp.h
+	- Added void GetProp::toDoubleArray(string s, int num, double *values)
+o) LockedQueue.h
+	- Added int size() which returns the number of packets in the queue.
+
+
+========================================
+Changes 5 June 2017
+========================================
+Jen Andrews 
+Consolidating all files
+o) GetProp.cc and GetProp.h
+	- Moved to utils/ as used widely by non-waveform processing modules
+
+========================================
+Changes 6 June 2017
+========================================
+Ivan Henson 
+o) svn deleted wp.h and wp.cc; svn copied them from wplib; reapplied my changes.
+
