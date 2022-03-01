@@ -1,41 +1,45 @@
-# Makefile for libs
+# Makefile for third_party
 
-SUBDIRS=dmlib utils datapkt
+ALL_LIBS = qlib2 librtseis libtnchnl libtndb libtnstd libtntime libtnwave OTL oracle libamq
+ALL_PROGS = conlog mcast2ew qmcast2ew spyring
 
-.PHONY: all show-targets $(SUBDIRS)
-show-targets:
-	@echo TARGETS:  $(TARGET_LIST)
-TARGET_LIST=show-targets
+all: all_libs all_progs
 
-all: $(SUBDIRS)
+all_libs: $(ALL_LIBS)
+	for dir in $(ALL_LIBS) ; do \
+		make -C $$dir all ; \
+	done
 
-ids: $(SUBDIRS)
-rm-ids: $(SUBDIRS)
-test: $(SUBDIRS)
-docs: $(SUBDIRS)
+all_progs: $(ALL_PROGS)
+	for dir in $(ALL_PROGS) ; do \
+		make -C $$dir all ; \
+	done
 
-# define macro to generate rules for target, list of sub targets and rule for each.
-define gen_recursive_targets
-.PHONY: $(1) $(2:%=$(1)-%)
-$(1): $(2:%=$(1)-%)
-$(2:%=$(1)-%):
-	$(MAKE) -C $$(@:$$$(1)-%=%) $1
-	@echo -e ""
-TARGET_LIST+= $(1) $(2:%=$(1)-%)
-endef
+install: install_libs install_progs
 
-#TARGETS=all clean depend veryclean test check
-# invoke macro for each target -- not currently working
-#$(forearch target, $(TARGETS), $(eval $(call gen_recursive_targets, $(target), $(SUBDIRS))))
+install_libs: $(ALL_LIBS)
+	for dir in $(ALL_LIBS) ; do \
+		make -C $$dir install ; \
+	done
 
-# use macro to define recursive targets
-$(eval $(call gen_recursive_targets, ids, 		$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, rm-ids, 	$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, all, 		$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, clean, 	$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, depend, 	$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, veryclean, $(SUBDIRS)))
-$(eval $(call gen_recursive_targets, ut, 		$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, test, 		$(SUBDIRS)))
-$(eval $(call gen_recursive_targets, docs, 		$(SUBDIRS)))
+install_progs: $(ALL_PROGS)
+	for dir in $(ALL_PROGS) ; do \
+		make -C $$dir install ; \
+	done
 
+clean:
+	for dir in $(ALL_LIBS) ; do \
+		make -C $$dir clean ; \
+	done
+	for dir in $(ALL_PROGS) ; do \
+		make -C $$dir clean ; \
+	done
+
+veryclean:      clean
+
+depend:	# no-op
+
+docs: # no-op
+ids: # no-op
+rm-ids: # no-op
+test: # no-op
