@@ -1,0 +1,195 @@
+README_6.3.11
+
+The addition of the Xerces XML parsing library
+
+    This version of dm_lib uses the Xerces library to generate and parse XML
+    messages. All messages sent and received by the library are now XML only.
+
+    The DMMessageSender class interface is backward compatible.  Programs should
+    recompile and link without any changes. Programs must now link with the
+    Xerces C++ library (libxerces-c.so), which can be found at
+
+        http://xerces.apache.org/xerces-c
+
+    We are using version xerces-c-3.1.1.tar.gz.
+
+    If you are using the SunOS compiler, Xerces must be compiled with the
+    -library=stlport4 option to work with the ActiveMQ libraries. We configure
+    the Xerces code with
+
+        ./configure CXX=CC CC=cc CXXFLAGS="-mt -g -library=stlport4" CFLAGS="-mt -g" \
+		LDFLAGS="-g -lpthread -lrt"
+
+    If you are using linux, you might be able to use a binary distribution. We
+    successfully used xerces-c-3.1.1-x86_64-linux-gcc-3.4.tar.gz.
+
+
+    All DMMessageSender::sendMessage() functions now return a string that contains
+    the XML message that was sent.
+
+    The DMMessageReceiver::receive() function has an optional string argument that 
+    will contain the string XML message that was received:
+
+        CoreEventInfo* DMMessageReceiver::receive(int millisec, string &xml_message)
+
+
+Test and Example programs
+
+    The test programs have been updated to print the XML message as well as the
+    CoreEventInfo subclass objects that the message is parsed into. Some small
+    example programs have been added.
+
+    test_receiver:  receives DecisionModule event messages from eew.sys.dm.data
+
+    test_alg_receiver: receives all algorithm messages from eew.alg.*.data
+
+    examples/hb_receiver: receives all DecisionModule event messages from
+		eew.sys.dm.data and all heartbeat messages from eew.sys.dm.hb
+
+    examples/send_elarms: sends an Elarms message and heartbeats
+
+    examples/send_onsite: sends an OnSite message and heartbeats
+
+    examples/send_vs: sends a VS message and heartbeats
+
+    examples/send_dm: sends a DecisionModule message (EventMessage object)
+
+
+Sending a Delete event message
+
+    The DMMessageSender class now has two routines for sending a delete message.
+
+        string sendDeleteMessage(enum eewSystemName sys_name, int id)
+
+    sends a delete message for the specified system message id, for example:
+
+        sendDeleteMessage(VS, 3847);
+
+        string sendDeleteMessage(CoreEventInfo &cei)
+
+    sends a delete message for one of the CoreEventInfo subclasses:
+
+        ElarmsMessage em;
+        ...
+        sendDeleteMessage(em);
+
+
+Producing Heartbeats
+
+    This dm_lib version also has new classes for automatically sending and
+    receiving heartbeat messages. The heartbeat message has one node with
+    three attributes, for example:
+
+        <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+        <hb originator="dm" sender="dm" timestamp="Tue May 31 22:21:14 2011"/>
+
+    To generate heartbeat messages, one HBProducer object should be
+    created in the program (and not deleted). The constructor is declared as:
+
+        HBProducer(Connection *connection, const string& sender, const string& topic,
+                int time_interval=5);
+
+    The Connection argument can be obtained from the DMMessageSender class, after
+    its run() method has been called. For example:
+
+
+        dmsender = new DMMessageSender(string(uri), prop->getDecisionModuleChannel(),
+				true, false, ONSITE);
+        dmsender->run();
+
+        HBProducer hb(dmsender->getConnection(), "onsite", "eew.alg.onsite.hb");
+
+
+    For Elarms, the sender and topic should be:
+
+        HBProducer hb(dmsender->getConnection(), "elarms", "eew.alg.elarms.hb");
+
+
+    For Virtual Seismologist, the sender string should be distinct for each program,
+    for example:
+
+        HBProducer hb(dmsender->getConnection(), "vs.0", "eew.alg.vs.hb");
+
+        HBProducer hb(dmsender->getConnection(), "vs.1", "eew.alg.vs.hb");
+
+        HBProducer hb(dmsender->getConnection(), "vs.2", "eew.alg.vs.hb");
+
+
+    The HBProducer class runs in a separate Thread.
+
+
+Receiving Heartbeats
+
+    The HBConsumer class constructor is declared as:
+
+        HBConsumer(Connection *connection, const string& hb_topic="eew.alg.*.hb");
+
+    To have access to each heartbeat message that is received, make a subclass
+    of HBConsumer with an onMessage() function. For example, the HBPrinter class
+    below receives all heartbeat messages in its onMessage() function and prints
+    the heartbeat attributes using the HBConsumer getSender(), getOriginator(), and
+    getTimestamp() functions.
+
+    class HBPrinter : public HBConsumer
+    {
+	public:
+	HBPrinter(Connection *connection, const string &hb_topic) :
+  		HBConsumer(connection, hb_topic)
+	{
+	}
+	virtual void onMessage( const Message *message ) throw()
+	{
+	    // call superclass method to parse message
+	    HBConsumer::onMessage(message);
+
+	    // use HBConsumer functions to get the heartbeat attributes
+	    cout << "heartbeat: " << getSender() << " " << getOriginator() << " "
+			<< getTimestamp() << endl;
+	}
+    };
+
+    The connection argument can be from a DMMessageSender, DMMessageReceiver, or
+    any other active Connection. For example, the following program (also included
+    as examples/dm_receiver.cpp) uses the HBPrinter class above to print all
+    heartbeats from "eew.sys.dm.hb", while also receiving and printing all
+    DecisionModule messages from "eew.sys.dm.data".
+
+    int main(int argc AMQCPP_UNUSED, char* argv[] AMQCPP_UNUSED)
+    {
+	activemq::library::ActiveMQCPP::initializeLibrary();
+
+	string username = "testReceiver";
+	string password = "trIsOK";
+	string hostname = "localhost";
+	int port = 61616;
+	string destination = "eew.sys.dm.data";
+
+	DMMessageReceiver receiver(username, password, destination, hostname, port);
+	receiver.run();
+
+	// start heartbeat consumer and printer
+	HBPrinter hp(receiver.getConnection(), "eew.sys.dm.hb");
+
+	EventMessage *dm;
+
+	while(true) {
+	    // receive Event messages from "eew.sys.dm.data"
+	    if( (dm = (EventMessage *)receiver.receive(500)) != NULL) {
+		dm->coutPrint();
+		delete dm;
+	    }
+	}
+
+	receiver.close();
+
+	activemq::library::ActiveMQCPP::shutdownLibrary();
+    }
+
+
+doxygen Documentation
+
+    Code documentation is ongoing. The current html documentation can be
+    generated by executing "doxygen" (with no arguments) in the directory that
+    contains the file Doxyfile. The doxygen program will create a doc directory
+    with html documentation. Start with doc/html/index.html.
+

@@ -1,0 +1,47 @@
+decimod version 1.1.6 (2011/06/29)
+Receive from: localhost Name: eew.alg.*.data Username: decimod
+Send to:      localhost Name: eew.sys.dm.data Username: decimod
+Next eventid: 8959
+ActiveMQ Receiver is running
+brokerURI=failover:(tcp://localhost:61616)
+username=decimod
+The DMReceiver transport has been Restored.
+brokerURI=failover:(tcp://localhost:61616)
+username=decimod
+The DMSender transport has been Restored.
+Sending 5-second heartbeats to eew.sys.dm.hb
+Forwarding heartbeats from eew.alg.*.hb to eew.sys.dm.hb
+CISN Decision Module Running
+
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: elarms        23234   0 live    new  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90
+  Created:     dm         8959  -1 live    new  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90 [elarms,23234,0,live]
+Published:     dm         8959   0 live    new  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90  0.00   0.0   0.0 [elarms,23234,0,live]
+
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: elarms        23234   1 live update  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90
+  Updated: elarms        23234   1 live update
+  Changed:     dm         8959     live change to observations or predictions
+Published:     dm         8959   1 live update  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90  0.00   0.0   0.0 [elarms,23234,1,live]
+
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: elarms        23234   2 live update  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90
+  Updated: elarms        23234   2 live update
+No Change:     dm         8959     live
+Published:     dm         8959   2 live update  3.500  0.45  35.000  0.34 -120.000  0.36   9.10   0.79 11-08-11 22:08:04.812  12.45  0.90  0.00   0.0   0.0 [elarms,23234,2,live]
+
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received:     vs        34566   0 live    new  3.500  1.45  34.230  0.34 -120.100  0.36   9.10   0.79 11-08-11 22:08:04.812  23.45  0.85
+Corrected:     vs        34566   0 live    new  3.500  1.00  34.230  0.34 -120.100  0.36   9.10   0.79 11-08-11 22:08:04.812  20.00  0.85
+Associate: [vs,34566,0,live] with dm 8959 [elarms,23234,4,live]: sec:0.00 km:42.95 [vs,34566,0,live]: sec:0.00 km:42.95 misfit: 0.429
+Associate: [vs,34566,0,live] added to dm 8959 misfit: 0.429
+  Changed:     dm         8959   4 live update        -0.04  -0.385 -0.10   -0.050 -0.10         -0.23                +0.000  -1.88       +0.43 +43.0  -0.0
+Published:     dm         8959   5 live update  3.500  0.41  34.615  0.24 -120.050  0.25   9.10   0.56 11-08-11 22:08:04.812  10.57  0.90  0.43  43.0   0.0 [elarms,23234,4,live][vs,34566,0,live]
+
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: onsite         9234   0 live    new  3.500  1.45  34.230  0.34 -120.200  0.36   9.10   0.79 11-08-11 22:08:04.812  23.45  0.85
+Corrected: onsite         9234   0 live    new  3.500  1.00  34.230  0.34 -120.200  0.36   9.10   0.79 11-08-11 22:08:04.812  20.00  0.85
+Associate: [onsite,9234,0,live] with dm 8959 [elarms,23234,4,live]: sec:0.00 km:57.67 [vs,34566,0,live]: sec:0.00 km:28.47 [onsite,9234,0,live]: sec:0.00 km:29.92 misfit: 0.387
+Associate: [onsite,9234,0,live] added to dm 8959 misfit: 0.387
+  Changed:     dm         8959   5 live update        -0.03  -0.128 -0.04   -0.050 -0.05         -0.10                -0.000  -1.22       -0.04 +14.7  +0.0
+Published:     dm         8959   6 live update  3.500  0.38  34.487  0.20 -120.100  0.21   9.10   0.46 11-08-11 22:08:04.812   9.34  0.90  0.39  57.7   0.0 [elarms,23234,4,live][vs,34566,0,live][onsite,9234,0,live]

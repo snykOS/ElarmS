@@ -1,0 +1,31 @@
+namespace ShakeAlert {
+
+/** \mainpage notitle
+
+This is the internal technical documentation for ShakeAlert 2. 
+
+Shared (more or less) libraries:
+
+- <a href="../dmlib/index.html">dmlib, Messaging Library</a>
+- <a href="../datapkt/index.html">datapkt, Data packet organization into streams with meta-data attached</a>
+- <a href="../utils/index.html">utils, Miscellaneous utilities, mostly signal processing and filtering classes/functions</a>
+- <a href="../wfproc/index.html">wfproc, more signal processing classes.</a>
+
+Programs:
+
+- <a href="../epic/index.html">EPIC </a>
+\ref epic_page
+- <a href="../finder/index.html">FinDer </a>
+- <a href="../dm/index.html">Solution Aggregator (SA) and Decision Module (DM) </a>
+- <a href="../ha/index.html">Heartbeat Aggregator </a>
+- <a href="../eqinfo2gm/index.html">eqInfo2GM </a>
+
+Retired Modules:
+
+- <a href="../elarms/index.html">ElarmS-3</a>
+- <a href="../onsite/index.html">OnSite</a>
+- <a href="../eewserver/index.html">eewserver</a>
+
+*/
+
+}

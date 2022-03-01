@@ -1,0 +1,75 @@
+-------------------------------------
+Compiling decimod:
+
+The program decimod depends on the open source libraries in ../../opensrc. It also depends
+on qlib2, elarms/ewutil and tnstd. To compile:
+
+Set the enviroment variable QLIB2_DIR to the directory that contains the qlib2 include and library.
+
+ 1 - compile open source libraries:
+	cd ../../opensrc
+	install.solaris (or install.linux)
+
+ 2 - compile the dm_lib in ../dm_lib
+        cd ../dm_lib
+        set enviroment variable QLIB2_DIR
+        make -f Makefile.solaris (or Makefile.linux)
+
+ 3 - compile ewutil library in elarms directory
+	cd ../../elarms/ewutil
+	gmake
+
+ 4 - compile libtnstd
+	cd ../../elarms/tnstd
+	gmake
+
+ 5 - compile in this directory
+	make -f Makefile.solaris (or Makefile.linux)
+
+-------------------------------------
+Running decimod
+
+Execute
+	decimod decimod.config
+
+The logging information is output to stdout. To log to daily files, pipe to the program conlog:
+
+	decimod ../params/decimod.config |& conlog ../logs/decimod &
+
+This will produce logfiles:
+	../logs/decimod_20130425.log
+	../logs/decimod_20130424.log
+	...
+
+-------------------------------------
+Configuration file decimod.config
+
+# File containing an integer id. Defaults to 1. Can be initialized before starting the program.
+EventIDFile		lastdmevent.id
+
+# input messages. ActiveMQ login, password and IP address
+AlgorithmUser		decimod
+AlgorithmPassword
+AlgorithmIP		localhost:61616
+
+# Input topic group used by the contributing algorithms. 
+# For example, eew.alg.elarms.data, eew.alg.vs.data, eew.alg.onsite.data
+AlgorithmTopic		eew.alg.*.data
+
+# output messages. ActiveMQ login, password and IP address. This can be a different ActiveMQ
+AlertUser		decimod
+AlertPassword
+AlertIP			localhost:61616
+
+# Output topic. This topic is read by the UserDisplay program and other application programs.
+# See UserDisplay/app.properties: DMSubscriptionID
+AlertTopic		eew.sys.dm.data
+
+# filter settings: An alert will only be sent if the DM magnitude is >= MinMagnitude and the DM likelihood is >- 0.4
+MinMagnitude		2.5
+MinLikelihood		0.4
+
+# if DM gets an algorithm alert with magnitude X where X>6, then no alert will be issued until
+# a 2nd algorithm reports an event with a magnitude greater than X-1.
+TwoAlgMagnitude		6.0
+
