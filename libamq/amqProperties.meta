@@ -1,0 +1,23 @@
+
+group amq {
+	string  Domain;
+	string  ChannelType = TOPIC;
+
+	string Server1;
+	string Server2 = none;
+	string Server3 = none;
+	string Server4 = none;
+	string Server5 = none;
+
+	string initialReconnectDelay = 0;
+	string maxReconnectDelay = 3000;
+	string useExponentialBackOff = false;
+	string maxReconnectAttempts = 0;
+        string startupMaxReconnectAttempts = 0; 
+	string randomize = false;
+	string backup = false;
+        string backupPoolSize = 1;
+	string timeout = 10;
+	string username;
+	string password;	
+}

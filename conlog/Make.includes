@@ -1,0 +1,74 @@
+# the SHAREROOT should point to the top of the RT tree  e.g. SHAREROOT=/home/isti/svn_workarea/RT
+SHAREROOT=/app/share
+ 
+# CFLAGS options, based on Earthworm's GLOBALFLAGS
+CFLAGS	= ${GLOBALFLAGS}
+
+# For GNU compilers 4.1 vintage (at least)
+# Be sure to compile in 32-bit mode: AQMS is not ready for 64 bit!
+CC	= g++ -m32
+cc	= gcc -m32
+FF	= gfortran -m32
+F77LIBS	= -lgfortran
+
+# Choose one set of compiler macros:
+# If you are building shared libraries, uncomment the following line:
+USE_KPIC = -fPIC
+
+# Commands for making shared and static libraries
+GENSTATLIB = ar rv
+GENSHARLIB = $(CC) -shared -o
+
+# For Linux, the following system libraries should work:
+SVR4LIBS	= -lm
+
+######################################################################
+# System level macro defintions for various features
+# Turn any of these feature off by preceeding the line with `#'
+#
+# To collect the coda and Md parameters from a hypoinverse file:
+CODAS_FROM_PICKEW       = -DCODAS_FROM_PICKEW
+#
+# To turn OFF the computation of event/origin quality:
+NC_NO_EVENT_QUALITY     = -DNC_NO_EVENT_QUALITY
+#
+
+# Here we add any of the above macros that happen to be defined to CFLAGS
+# You should NOT need to change this line; instead, comment out the above
+# lines as desired.
+CFLAGS += $(CODAS_FROM_PICKEW) $(NC_NO_EVENT_QUALITY)
+
+####################
+#RT Library Includes
+####################
+
+RTLIBINCL = -I$(SHAREROOT)/include		
+
+RTLIBPATH = -L$(SHAREROOT)/lib
+
+## For using shared libraries only:
+RTLIBDIR=$(SHAREROOT)/lib
+RTLIBPATH = -L$(RTLIBDIR) $(F77LIBS) $(ODBLIB) 
+
+#:: ### For using static libraries only:
+#:: RTLIBDIR  = $(SHAREROOT)/lib/libs
+#:: RTLIBPATH = -L$(RTLIBDIR) $(F77LIBS) $(ODBLIB)
+
+RTLIBGROUP = $(TNMSG_LIB) $(RTLIBPATH) -ltnwaveclient -leventsolution \
+    -ltnpkg -lrtseis -ltnframework -lrtevent \
+    -ltntcp -ltnchnl -ltndb -l$(CMS) -ltnwave -ltntime -ltnstd -ltnalarm \
+    -lgcda -lrtpage -ltnwavepool
+
+RTLIBGROUP_NOCMS = $(RTLIBPATH) -ltnwaveclient -leventsolution \
+   -lrtseis -ltnframework_nocms -lrtevent \
+    -ltntcp -ltnwave -ltnchnl -ltndb -ltntime -ltnstd  -ltnalarm -lgcda \
+    -lrtpage -ltnwavepool
+
+RTSTDINCL  = $(TNMSG_INCL) $(RTLIBINCL) -I$(QLIB2_DIR) $(OTLDBINCL)
+
+RTSTDLIBS  = $(RTLIBGROUP) $(SVR4LIBS) $(QLIB2LIBS)
+
+RTSTDLIBS_NOCMS = $(RTLIBGROUP_NOCMS) $(SVR4LIBS) $(QLIB2LIBS)
+
+
+

@@ -1,0 +1,36 @@
+      FUNCTION YNTERP ( X, Y, XI, N, ND )
+C LINEAR INTERPOLATION
+C ND: DUMMY, TO BE COMPATIBLE WITH CIT LIBRARY ROUTINE
+C FLAT OUTSIDE THE RANGE OF X(I), I.E. YNTERP=Y(1) OR Y(N)
+C X(I) MUST BE MONOTONIC, EITHER DECREASING OR INCREASING
+C X(I) MUST BE ALL DIFFERENT
+C HIROO KANAMORI AUG.4 1978
+      DIMENSION X(*), Y(*)
+      I=1
+      J=N
+      K=1
+      IF ( X(1) .GT. X(N) ) GO TO 11
+1     IF( XI-X(K)) 2,2,3
+2     J=K
+      GO TO 4
+3     I=K
+4     K=(I+J)/2
+      IF(K.NE.I) GO TO 1
+      IF( XI.GT.X(N)) J=N+1
+      GO TO 21
+11    IF( X(K)-XI) 12,12,13
+12    J=K
+      GO TO 14
+13    I=K
+14    K=(I+J)/2
+      IF(K.NE.I) GO TO 11
+      IF( XI.LT. X(N)) J=N+1
+21    IF ( J.EQ. 1) GO TO 23
+      IF(J.EQ.N+1) GO TO 24
+      YNTERP=Y(J-1)+(Y(J)-Y(J-1))*(XI-X(J-1))/(X(J)-X(J-1))
+      RETURN
+23    YNTERP=Y(1)
+      RETURN
+24    YNTERP=Y(N)
+      RETURN
+      END
