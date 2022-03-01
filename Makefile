@@ -1,46 +1,41 @@
-# Makefile for epic
+# Makefile for libs
 
-ALL	= ewpio ElarmSWP2 E2
+SUBDIRS=dmlib utils datapkt
 
-all: $(ALL)
-	for dir in $(ALL) ; do \
-		make -C $$dir all ; \
-	done
+.PHONY: all show-targets $(SUBDIRS)
+show-targets:
+	@echo TARGETS:  $(TARGET_LIST)
+TARGET_LIST=show-targets
 
-ids: $(ALL)
-	for dir in $(ALL) ; do \
-		make -C $$dir ids ; \
-	done
+all: $(SUBDIRS)
 
-rm-ids: $(ALL)
-	for dir in $(ALL) ; do \
-		make -C $$dir rm-ids ; \
-	done
+ids: $(SUBDIRS)
+rm-ids: $(SUBDIRS)
+test: $(SUBDIRS)
+docs: $(SUBDIRS)
 
-install:
-	for dir in $(ALL) ; do \
-		make -C $$dir install ; \
-	done
+# define macro to generate rules for target, list of sub targets and rule for each.
+define gen_recursive_targets
+.PHONY: $(1) $(2:%=$(1)-%)
+$(1): $(2:%=$(1)-%)
+$(2:%=$(1)-%):
+	$(MAKE) -C $$(@:$$$(1)-%=%) $1
+	@echo -e ""
+TARGET_LIST+= $(1) $(2:%=$(1)-%)
+endef
 
-docs:
-	doxygen doxygen.conf
+#TARGETS=all clean depend veryclean test check
+# invoke macro for each target -- not currently working
+#$(forearch target, $(TARGETS), $(eval $(call gen_recursive_targets, $(target), $(SUBDIRS))))
 
-cleandocs:
-	rm -rf ../docs/epic
+# use macro to define recursive targets
+$(eval $(call gen_recursive_targets, ids, 		$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, rm-ids, 	$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, all, 		$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, clean, 	$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, depend, 	$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, veryclean, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, ut, 		$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, test, 		$(SUBDIRS)))
+$(eval $(call gen_recursive_targets, docs, 		$(SUBDIRS)))
 
-clean:
-	for dir in $(ALL) ; do \
-		make -C $$dir clean ; \
-	done
-
-veryclean: cleandocs
-	for dir in $(ALL) ; do \
-		make -C $$dir veryclean ; \
-	done
-
-depend:
-	for dir in $(ALL) ; do \
-		make -C $$dir depend ; \
-	done
-
-test: # no-op
