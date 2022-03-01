@@ -1,45 +1,88 @@
-# Makefile for third_party
+# Toplevel Makefile for EEW development and CM for RT programs and libraries
 
-ALL_LIBS = qlib2 librtseis libtnchnl libtndb libtnstd libtntime libtnwave OTL oracle libamq
-ALL_PROGS = conlog mcast2ew qmcast2ew spyring
+# third party libs and apps
+THIRD_PARTY_LIBS = third_party
+THIRD_PARTY_APPS = \
+	$(THIRD_PARTY_LIBS)/conlog \
+	$(THIRD_PARTY_LIBS)/mcast2ew \
+	$(THIRD_PARTY_LIBS)/qmcast2ew \
+	$(THIRD_PARTY_LIBS)/spyring
+THIRD_PARTY = $(THIRD_PARTY_LIBS) $(THIRD_PARTY_APPS)
 
-all: all_libs all_progs
+# ShakeAlert Library directories.
+MAKE_LIB_DIRS = \
+	libs
 
-all_libs: $(ALL_LIBS)
-	for dir in $(ALL_LIBS) ; do \
-		make -C $$dir all ; \
-	done
+# ShakeAlert Programs directories
+MAKE_PROG_DIRS = \
+	dm \
+	epic
 
-all_progs: $(ALL_PROGS)
-	for dir in $(ALL_PROGS) ; do \
-		make -C $$dir all ; \
-	done
+# Other programs
+OTHER_DIRS =
 
-install: install_libs install_progs
+DOCSDIR = docs
 
-install_libs: $(ALL_LIBS)
-	for dir in $(ALL_LIBS) ; do \
-		make -C $$dir install ; \
-	done
+.PHONY: all show-targets $(SUBDIRS)
 
-install_progs: $(ALL_PROGS)
-	for dir in $(ALL_PROGS) ; do \
-		make -C $$dir install ; \
-	done
+# default target is first rule
+TARGET_LIST=show-targets
+show-targets:
+	@echo TARGET_LIST=$(TARGET_LIST)
 
-clean:
-	for dir in $(ALL_LIBS) ; do \
-		make -C $$dir clean ; \
-	done
-	for dir in $(ALL_PROGS) ; do \
-		make -C $$dir clean ; \
-	done
+# Define full list of directories for generating convenient rules for developers
+SUBDIRS = $(MAKE_LIB_DIRS) $(MAKE_PROG_DIRS) $(OTHER_DIRS)
 
-veryclean:      clean
+# Define the 'all' target 
+all: $(SUBDIRS)
 
-depend:	# no-op
 
-docs: # no-op
-ids: # no-op
-rm-ids: # no-op
-test: # no-op
+docsdir:
+	if [ ! -d "$(DOCSDIR)" ]; then mkdir $(DOCSDIR); fi
+
+
+# define macro to generate rules for target, list of sub targets and rule for each.
+define gen_recursive_targets
+.PHONY: $(1) $(2:%=$(1)-%)
+$(1): $(2:%=$(1)-%)
+$(2:%=$(1)-%):
+	$(MAKE) -C $$(@:$$$(1)-%=%) $1
+	@echo -e ""
+TARGET_LIST+= $(1) $(2:%=$(1)-%)
+endef
+
+# use macro to define recursive targets
+$(eval $(call gen_recursive_targets, all, $(SUBDIRS) $(THIRD_PARTY) ))
+$(eval $(call gen_recursive_targets, ids, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, rm-ids, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, install, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, clean, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, depend, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, veryclean, $(SUBDIRS) $(THIRD_PARTY) ))
+$(eval $(call gen_recursive_targets, test, $(SUBDIRS)))
+$(eval $(call gen_recursive_targets, docs, $(SUBDIRS)))
+
+# Define additional rules for building each algorithm with dependencies
+third_party: all-third_party
+epic: all-third_party  all-libs all-epic
+dmlib: all-third_party all-libs
+dm: all-third_party all-libs all-dm
+documentation:
+
+# Add the additional targets to the automatically generated target list
+TARGET_LIST+=dmlib dm epic
+TARGET_LIST+=printvars
+
+force:	
+
+printvars:
+	@echo THIRD_PARTY_LIBS=$(THIRD_PARTY_LIBS)
+	@echo THIRD_PARTY_APPS=$(THIRD_PARTY_APPS)
+	@echo THIRD_PARTY=$(THIRD_PARTY)
+	@echo MAKE_LIB_DIRS=$(MAKE_LIB_DIRS)
+	@echo MAKE_PROG_DIRS=$(MAKE_PROG_DIRS)
+	@echo OTHER_DIRS=$(OTHER_DIRS)
+	@echo SUBDIRS=$(SUBDIRS)
+	@echo DOCSDIR=$(DOCSDIR)
+	@echo
+	@echo TARGET_LIST=$(TARGET_LIST)
