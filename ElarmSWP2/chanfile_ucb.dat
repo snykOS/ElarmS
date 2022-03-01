@@ -1,0 +1,238 @@
+#columns: network station location channel latitude longitude elevation samplerate gain units sensortype
+BK   BDM 00 HHE 37.9540 -121.8655   219.8   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BDM 00 HHN 37.9540 -121.8655   219.8   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BDM 00 HHZ 37.9540 -121.8655   219.8   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BDM 00 HNE 37.9540 -121.8655   219.8   100.00  4.281965e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   BDM 00 HNN 37.9540 -121.8655   219.8   100.00  4.282384e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   BDM 00 HNZ 37.9540 -121.8655   219.8   100.00  4.281126e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   BKS 00 HHE 37.8762 -122.2356   243.9   100.00  4.734530e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   BKS 00 HHN 37.8762 -122.2356   243.9   100.00  3.217870e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   BKS 00 HHZ 37.8762 -122.2356   243.9   100.00  5.877059e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   BKS 00 HNE 37.8762 -122.2356   243.9   100.00  2.139951e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   BKS 00 HNN 37.8762 -122.2356   243.9   100.00  2.142348e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   BKS 00 HNZ 37.8762 -122.2356   243.9   100.00  2.140978e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  BL67 00 HHE 37.8749 -122.2432   736.2   100.00  6.316622e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BL67 00 HHN 37.8749 -122.2432   736.2   100.00  6.325010e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BL67 00 HHZ 37.8749 -122.2432   736.2   100.00  6.274679e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BL67 00 HNE 37.8749 -122.2432   736.2   100.00  4.279448e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BL67 00 HNN 37.8749 -122.2432   736.2   100.00  4.284062e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BL67 00 HNZ 37.8749 -122.2432   736.2   100.00  4.277771e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BL88 00 HNE 37.8772 -122.2543   602.2   100.00  4.280929e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BL88 00 HNN 37.8772 -122.2543   602.2   100.00  4.285039e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BL88 00 HNZ 37.8772 -122.2543   602.2   100.00  4.282984e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  BRIB 00 HHE 37.9188 -122.1518   218.9   100.00  2.479673e+09               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BRIB 00 HHN 37.9188 -122.1518   218.9   100.00  2.499805e+09               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BRIB 00 HHZ 37.9188 -122.1518   218.9   100.00  2.496450e+09               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  BRIB 00 HNE 37.9189 -122.1518   219.7   100.00  2.145087e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 5 v/g)
+BK  BRIB 00 HNN 37.9189 -122.1518   219.7   100.00  2.138239e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 5 v/g)
+BK  BRIB 00 HNZ 37.9189 -122.1518   219.7   100.00  2.141321e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 5 v/g)
+BK   BRK 00 HHE 37.8735 -122.2610    49.4   100.00  2.540909e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BRK 00 HHN 37.8735 -122.2610    49.4   100.00  2.550640e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BRK 00 HHZ 37.8735 -122.2610    49.4   100.00  2.531346e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   BRK 00 HNE 37.8735 -122.2610    49.4   100.00  2.139095e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 10 v/g)
+BK   BRK 00 HNN 37.8735 -122.2610    49.4   100.00  2.139095e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 10 v/g)
+BK   BRK 00 HNZ 37.8735 -122.2610    49.4   100.00  2.139095e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (4 g max 10 v/g)
+BK   CMB 00 HHE 38.0346 -120.3865   697.0   100.00  4.349661e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   CMB 00 HHN 38.0346 -120.3865   697.0   100.00  3.311822e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   CMB 00 HHZ 38.0346 -120.3865   697.0   100.00  5.196239e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   CMB 00 HNE 38.0346 -120.3865   697.0   100.00  4.278190e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   CMB 00 HNN 38.0346 -120.3865   697.0   100.00  4.275254e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   CMB 00 HNZ 38.0346 -120.3865   697.0   100.00  4.246733e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   CVS 00 HHE 38.3453 -122.4584   295.1   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   CVS 00 HHN 38.3453 -122.4584   295.1   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   CVS 00 HHZ 38.3453 -122.4584   295.1   100.00  2.553526e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   CVS 00 HNE 38.3453 -122.4584   295.1   100.00  2.143717e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   CVS 00 HNN 38.3453 -122.4584   295.1   100.00  2.143373e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   CVS 00 HNZ 38.3453 -122.4584   295.1   100.00  2.141989e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  FARB 00 HHE 37.6978 -123.0011   -18.5   100.00  2.552821e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  FARB 00 HHN 37.6978 -123.0011   -18.5   100.00  2.548627e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  FARB 00 HHZ 37.6978 -123.0011   -18.5   100.00  2.557183e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  FARB 00 HNE 37.6978 -123.0011   -18.5   100.00  4.279448e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  FARB 00 HNN 37.6978 -123.0011   -18.5   100.00  4.281965e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  FARB 00 HNZ 37.6978 -123.0011   -18.5   100.00  4.275254e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  GASB 00 HHE 39.6547 -122.7160  1354.8   100.00  2.413403e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  GASB 00 HHN 39.6547 -122.7160  1354.8   100.00  2.458030e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  GASB 00 HHZ 39.6547 -122.7160  1354.8   100.00  2.368943e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  GASB 00 HNE 39.6547 -122.7160  1354.8   100.00  4.283643e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  GASB 00 HNN 39.6547 -122.7160  1354.8   100.00  4.278190e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  GASB 00 HNZ 39.6547 -122.7160  1354.8   100.00  4.280707e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HAST 00 HHE 36.3887 -121.5514   539.5   100.00  2.517086e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HAST 00 HHN 36.3887 -121.5514   539.5   100.00  2.502993e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HAST 00 HHZ 36.3887 -121.5514   539.5   100.00  2.531346e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HAST 00 HNE 36.3887 -121.5514   539.5   100.00  4.281546e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HAST 00 HNN 36.3887 -121.5514   539.5   100.00  4.281546e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HAST 00 HNZ 36.3887 -121.5514   539.5   100.00  4.277351e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HATC 00 HHE 40.8161 -121.4612  1008.6   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HATC 00 HHN 40.8161 -121.4612  1008.6   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HATC 00 HHZ 40.8161 -121.4612  1008.6   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HATC 00 HNE 40.8161 -121.4612  1008.6   100.00  4.279029e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HATC 00 HNN 40.8161 -121.4612  1008.6   100.00  4.283223e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HATC 00 HNZ 40.8161 -121.4612  1008.6   100.00  4.279029e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HELL 00 HHE 36.6801 -119.0228  1137.5   100.00  6.548567e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HELL 00 HHN 36.6801 -119.0228  1137.5   100.00  6.572474e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HELL 00 HHZ 36.6801 -119.0228  1137.5   100.00  6.524659e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HELL 00 HNE 36.6801 -119.0228  1137.5   100.00  4.278610e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HELL 00 HNN 36.6801 -119.0228  1137.5   100.00  4.280287e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HELL 00 HNZ 36.6801 -119.0228  1137.5   100.00  4.279448e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HOPS 00 HHE 38.9935 -123.0723   299.1   100.00  3.218548e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK  HOPS 00 HHN 38.9935 -123.0723   299.1   100.00  3.211146e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK  HOPS 00 HHZ 38.9935 -123.0723   299.1   100.00  3.949222e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK  HOPS 00 HNE 38.9935 -123.0723   299.1   100.00  4.278190e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  HOPS 00 HNN 38.9935 -123.0723   299.1   100.00  4.283223e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  HOPS 00 HNZ 38.9935 -123.0723   299.1   100.00  4.282804e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  HUMO 00 HHE 42.6071 -122.9567   554.9   100.00  2.581678e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HUMO 00 HHN 42.6071 -122.9567   554.9   100.00  2.568256e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HUMO 00 HHZ 42.6071 -122.9567   554.9   100.00  2.595268e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  HUMO 00 HNE 42.6071 -122.9567   554.9   100.00  4.283643e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HUMO 00 HNN 42.6071 -122.9567   554.9   100.00  4.275673e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  HUMO 00 HNZ 42.6071 -122.9567   554.9   100.00  4.273576e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   JCC 00 HHE 40.8175 -124.0296    27.2   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   JCC 00 HHN 40.8175 -124.0296    27.2   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   JCC 00 HHZ 40.8175 -124.0296    27.2   100.00  2.526649e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   JCC 00 HNE 40.8175 -124.0296    27.2   100.00  4.276932e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   JCC 00 HNN 40.8175 -124.0296    27.2   100.00  4.276093e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   JCC 00 HNZ 40.8175 -124.0296    27.2   100.00  4.279029e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  JRSC 00 HHE 37.4037 -122.2387    70.5   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  JRSC 00 HHN 37.4037 -122.2387    70.5   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  JRSC 00 HHZ 37.4037 -122.2387    70.5   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  JRSC 00 HNE 37.4037 -122.2387    70.5   100.00  2.327839e+05            DU/M/S**2 TSA-100S (4 g max 5 v/g)
+BK  JRSC 00 HNN 37.4037 -122.2387    70.5   100.00  2.071483e+05            DU/M/S**2 TSA-100S (4 g max 5 v/g)
+BK  JRSC 00 HNZ 37.4037 -122.2387    70.5   100.00  2.219122e+05            DU/M/S**2 TSA-100S (4 g max 5 v/g)
+BK   KCC 00 HHE 37.3236 -119.3187   888.1   100.00  3.491674e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   KCC 00 HHN 37.3236 -119.3187   888.1   100.00  3.547375e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   KCC 00 HHZ 37.3236 -119.3187   888.1   100.00  3.922178e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   KCC 00 HNE 37.3236 -119.3187   888.1   100.00  4.280455e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   KCC 00 HNN 37.3236 -119.3187   888.1   100.00  4.270598e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   KCC 00 HNZ 37.3236 -119.3187   888.1   100.00 -4.269843e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MCCM 00 HHE 38.1448 -122.8802    -7.7   100.00  2.540406e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MCCM 00 HHN 38.1448 -122.8802    -7.7   100.00  2.536547e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MCCM 00 HHZ 38.1448 -122.8802    -7.7   100.00  2.544265e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MCCM 00 HNE 38.1448 -122.8802    -7.7   100.00  4.282804e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MCCM 00 HNN 38.1448 -122.8802    -7.7   100.00  4.277771e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MCCM 00 HNZ 38.1448 -122.8802    -7.7   100.00  4.281546e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MHC 00 HHE 37.3416 -121.6426  1250.4   100.00  3.862115e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   MHC 00 HHN 37.3416 -121.6426  1250.4   100.00  3.821850e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   MHC 00 HHZ 37.3416 -121.6426  1250.4   100.00  4.184238e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   MHC 00 HNE 37.3416 -121.6426  1250.4   100.00  4.283223e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MHC 00 HNN 37.3416 -121.6426  1250.4   100.00  4.278190e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MHC 00 HNZ 37.3416 -121.6426  1250.4   100.00  4.277351e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MNRC 00 HHE 38.8787 -122.4428   709.9   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MNRC 00 HHN 38.8787 -122.4428   709.9   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MNRC 00 HHZ 38.8787 -122.4428   709.9   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  MNRC 00 HNE 38.8787 -122.4428   709.9   100.00  4.284062e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MNRC 00 HNN 38.8787 -122.4428   709.9   100.00  4.273157e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  MNRC 00 HNZ 38.8787 -122.4428   709.9   100.00  4.284901e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MOD 00 HHE 41.9025 -120.3029  1554.5   100.00  2.562888e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   MOD 00 HHN 41.9025 -120.3029  1554.5   100.00  2.551647e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   MOD 00 HHZ 41.9025 -120.3029  1554.5   100.00  2.574296e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   MOD 00 HNE 41.9025 -120.3029  1554.5   100.00  2.143499e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MOD 00 HNN 41.9025 -120.3029  1554.5   100.00  2.140773e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   MOD 00 HNZ 41.9025 -120.3029  1554.5   100.00  2.139305e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   ORV 00 HHE 39.5545 -121.5004   334.7   100.00  3.761452e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   ORV 00 HHN 39.5545 -121.5004   334.7   100.00  3.717831e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   ORV 00 HHZ 39.5545 -121.5004   334.7   100.00  3.895670e+09               DU/M/S Streckeisen STS-1 VBB Feedback Seismometer
+BK   ORV 00 HNE 39.5545 -121.5004   334.7   100.00  4.286159e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   ORV 00 HNN 39.5545 -121.5004   334.7   100.00  4.278610e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   ORV 00 HNZ 39.5545 -121.5004   334.7   100.00  4.279448e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  PACP 00 HHE 37.0080 -121.2870   844.0   100.00  2.545439e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  PACP 00 HHN 37.0080 -121.2870   844.0   100.00  2.538728e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  PACP 00 HHZ 37.0080 -121.2870   844.0   100.00  2.552150e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  PACP 00 HNE 37.0080 -121.2870   844.0   100.00 -4.276135e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  PACP 00 HNN 37.0080 -121.2870   844.0   100.00 -4.281252e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  PACP 00 HNZ 37.0080 -121.2870   844.0   100.00 -4.282972e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  PETB 40 HN1 38.1189 -122.5011  -143.0   200.00  5.178539e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK  PETB 40 HN2 38.1189 -122.5011  -143.0   200.00  5.178539e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK  PETB 40 HN3 38.1189 -122.5011  -143.0   200.00  5.178539e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK   PKD 00 HHE 35.9452 -120.5416   583.0   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   PKD 00 HHN 35.9452 -120.5416   583.0   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   PKD 00 HHZ 35.9452 -120.5416   583.0   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   PKD 00 HNE 35.9452 -120.5416   583.0   100.00  4.285320e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   PKD 00 HNN 35.9452 -120.5416   583.0   100.00  4.281965e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   PKD 00 HNZ 35.9452 -120.5416   583.0   100.00  4.284482e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  RAMR 00 HHE 35.6360 -120.8698   414.3   100.00  6.494035e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  RAMR 00 HHN 35.6360 -120.8698   414.3   100.00  6.452092e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  RAMR 00 HHZ 35.6360 -120.8698   414.3   100.00  6.536397e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  RAMR 00 HNE 35.6360 -120.8698   414.3   100.00  4.282800e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  RAMR 00 HNN 35.6360 -120.8698   414.3   100.00  4.284897e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  RAMR 00 HNZ 35.6360 -120.8698   414.3   100.00  4.281122e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  RFSB 00 HNE 37.9161 -122.3361   -26.7   100.00  2.138924e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  RFSB 00 HNN 37.9161 -122.3361   -26.7   100.00  2.140978e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  RFSB 00 HNZ 37.9161 -122.3361   -26.7   100.00  2.142690e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   SAO 00 HHE 36.7640 -121.4472   317.2   100.00  3.815139e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SAO 00 HHN 36.7640 -121.4472   317.2   100.00  4.103707e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SAO 00 HHZ 36.7640 -121.4472   317.2   100.00  4.113773e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SAO 00 HNE 36.7640 -121.4472   317.2   100.00  4.275109e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   SAO 00 HNN 36.7640 -121.4472   317.2   100.00  4.282640e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   SAO 00 HNZ 36.7640 -121.4472   317.2   100.00  4.273054e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  SCCB 00 HNE 37.2874 -121.8642    98.4   100.00  4.281252e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  SCCB 00 HNN 37.2874 -121.8642    98.4   100.00  4.283307e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  SCCB 00 HNZ 37.2874 -121.8642    98.4   100.00  4.279197e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   SCZ 00 HHE 36.5980 -121.4030   261.0   100.00  4.711042e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SCZ 00 HHN 36.5980 -121.4030   261.0   100.00  4.150683e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SCZ 00 HHZ 36.5980 -121.4030   261.0   100.00  5.885447e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   SCZ 50 HHE 36.5980 -121.4030   261.0   100.00  6.510399e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   SCZ 50 HHN 36.5980 -121.4030   261.0   100.00  6.502010e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   SCZ 50 HHZ 36.5980 -121.4030   261.0   100.00  6.518368e+08               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  SUTB 00 HHE 39.2291 -121.7861   249.5   100.00  2.681670e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  SUTB 00 HHN 39.2291 -121.7861   249.5   100.00  2.672275e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  SUTB 00 HHZ 39.2291 -121.7861   249.5   100.00  2.690898e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  SUTB 00 HNE 39.2291 -121.7861   249.5   100.00  4.275254e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  SUTB 00 HNN 39.2291 -121.7861   249.5   100.00  4.273996e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  SUTB 00 HNZ 39.2291 -121.7861   249.5   100.00  4.281965e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  TCAS 00 HNE 35.6095 -120.5601   381.0   200.00  3.562217e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TCAS 00 HNN 35.6095 -120.5601   381.0   200.00  3.557726e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TCAS 00 HNZ 35.6095 -120.5601   381.0   200.00  3.563458e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TCHL 00 HHE 35.6881 -120.4009   431.0   100.00  5.212841e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TCHL 00 HHN 35.6881 -120.4009   431.0   100.00  5.186476e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TCHL 00 HHZ 35.6881 -120.4009   431.0   100.00  5.172534e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TCHL 00 HNE 35.6881 -120.4009   431.0   200.00  3.560209e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TCHL 00 HNN 35.6881 -120.4009   431.0   200.00  3.560209e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TCHL 00 HNZ 35.6881 -120.4009   431.0   200.00  3.555246e+05            DU/M/S**2 Guralp CMG-5TC
+BK  THIS 00 HHE 35.7240 -120.2284   643.0   100.00  5.190095e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  THIS 00 HHN 35.7240 -120.2284   643.0   100.00  5.202231e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  THIS 00 HHZ 35.7240 -120.2284   643.0   100.00  5.176143e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  THIS 00 HNE 35.7240 -120.2284   643.0   200.00  3.561452e+05            DU/M/S**2 Guralp CMG-5TC
+BK  THIS 00 HNN 35.7240 -120.2284   643.0   200.00  3.562697e+05            DU/M/S**2 Guralp CMG-5TC
+BK  THIS 00 HNZ 35.7240 -120.2284   643.0   200.00  3.561452e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TRAM 00 HHE 35.6769 -120.2709   642.0   100.00  5.205863e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TRAM 00 HHN 35.6769 -120.2709   642.0   100.00  5.198884e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TRAM 00 HHZ 35.6769 -120.2709   642.0   100.00  5.170971e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TRAM 00 HNE 35.6769 -120.2709   642.0   200.00  3.558968e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TRAM 00 HNN 35.6769 -120.2709   642.0   200.00  3.558968e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TRAM 00 HNZ 35.6769 -120.2709   642.0   200.00  3.561452e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TSCN 00 HHE 35.5440 -120.3481   476.5   100.00  5.211023e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TSCN 00 HHN 35.5440 -120.3481   476.5   100.00  5.211023e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TSCN 00 HHZ 35.5440 -120.3481   476.5   100.00  5.176143e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK  TSCN 00 HNE 35.5440 -120.3481   476.5   200.00  3.558968e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TSCN 00 HNN 35.5440 -120.3481   476.5   200.00  3.555246e+05            DU/M/S**2 Guralp CMG-5TC
+BK  TSCN 00 HNZ 35.5440 -120.3481   476.5   200.00  3.560976e+05            DU/M/S**2 Guralp CMG-5TC
+BK   VAK 00 HHE 37.8775 -122.2489   266.0   100.00  6.291456e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK   VAK 00 HHN 37.8775 -122.2489   266.0   100.00  6.283067e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK   VAK 00 HHZ 37.8775 -122.2489   266.0   100.00  6.274679e+08               DU/M/S Guralp CMG-3T Broad Band Seismometer
+BK   VAK 00 HNE 37.8775 -122.2489   266.0   100.00  4.279868e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   VAK 00 HNN 37.8775 -122.2489   266.0   100.00  4.286579e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   VAK 00 HNZ 37.8775 -122.2489   266.0   100.00  4.284901e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  VALB 40 HN1 38.1215 -122.2753  -180.3   200.00 -4.279780e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK  VALB 40 HN2 38.1215 -122.2753  -180.3   200.00 -4.279780e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK  VALB 40 HN3 38.1215 -122.2753  -180.3   200.00 -4.279780e+06            DU/M/S**2 Wilcoxon 731A Accel. (0.5 g max 10 v/g)
+BK   WDC 00 HHE 40.5799 -122.5411   268.3   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   WDC 00 HHN 40.5799 -122.5411   268.3   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   WDC 00 HHZ 40.5799 -122.5411   268.3   100.00  2.516582e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   WDC 00 HNE 40.5799 -122.5411   268.3   100.00  4.279448e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   WDC 00 HNN 40.5799 -122.5411   268.3   100.00  4.280287e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK   WDC 00 HNZ 40.5799 -122.5411   268.3   100.00  4.272737e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. GFE (2 g max 10 v/g)
+BK  WENL 00 HHE 37.6221 -121.7570   138.9   100.00  2.574128e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  WENL 00 HHN 37.6221 -121.7570   138.9   100.00  2.589899e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  WENL 00 HHZ 37.6221 -121.7570   138.9   100.00  2.558525e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK  WENL 00 HNE 37.6221 -121.7570   138.9   100.00  4.284901e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  WENL 00 HNN 37.6221 -121.7570   138.9   100.00  4.284062e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK  WENL 00 HNZ 37.6221 -121.7570   138.9   100.00  4.275254e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   YBH 00 HHE 41.7320 -122.7104  1059.7   100.00  4.520285e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   YBH 00 HHN 41.7320 -122.7104  1059.7   100.00  4.634706e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   YBH 00 HHZ 41.7320 -122.7104  1059.7   100.00  5.683785e+09               DU/M/S Streckeisen STS-1/E300 VBB Feedback Seismometer
+BK   YBH 00 HNE 41.7320 -122.7104  1059.7   100.00  4.279029e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   YBH 00 HNN 41.7320 -122.7104  1059.7   100.00  4.277771e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   YBH 00 HNZ 41.7320 -122.7104  1059.7   100.00  4.275254e+05            DU/M/S**2 Kinemetrics FBA ES-T Accel. (2 g max 10 v/g)
+BK   YBH 50 HHE 41.7319 -122.7104  1059.6   100.00  8.388608e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   YBH 50 HHN 41.7319 -122.7104  1059.6   100.00  8.388608e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
+BK   YBH 50 HHZ 41.7319 -122.7104  1059.6   100.00  8.388608e+09               DU/M/S Streckeisen STS-2 VBB Tri-Axial Seismometer
