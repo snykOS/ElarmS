@@ -1,0 +1,3 @@
+BUILD_UTILS=${PWD}/build-utils
+export BUILD_UTILS
+export PATH=${BUILD_UTILS}:${PATH}

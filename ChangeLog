@@ -1,116 +1,173 @@
-========================================
-Changes in 2.5.17 02 Aug 2016
-========================================
-I. Henson
-o) Added multiple window-length, multiple frequency-band Pgv measurements to EWP2. These measurements are transmitted in the
-TriggerParams message packet to E2. The message format version number was changed to 104 (EWPacket.h). The 11 window-lengths
-and 9 frequency-bands can be specified in EWP2.conf. They are used in TriggerParamsTSPModule.cc. testTeleseismicPgv()
-New EWP2 parameters in EWP2.conf:
-	# Compute variable data window-length and frequency-band Pgv measurements.
-	ComputeFBands true
-	# Compute frequency-band Pgv measurements for Z-only. If false, compute for Z,N, and E.
-	ZFBandsOnly true
-	# The beginning of all data windows for the IIR filter in seconds before the trigger time
-	WindowLead 30.0
-	# The end of all 11 data windows in seconds after the trigger time
-	WindowLags 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,2.0
-	# There are 9 frequency-bands in Hz: f1min,f1max,f2min,f2max,...f9min,f9max
-	# There are three sets for three sample-rate ranges
-	# FBands1 is used when the waveform sample rate is < 32 samples per second
-	# FBands2 is used when the waveform sample rate is < 96 samples per second
-	# FBands3 is used when the waveform sample rate is >= 96 samples per second
-	SamprateFBandsMax 32., 96.
-	FBands1 6.,8.,6.,8.,6.,8.,3.,6.,1.5,3.,0.75,1.5,0.375,0.75,0.1875,0.375,0.09375,0.1875
-	FBands2 12.,16.,8.,12.,6.,8.,3.,6.,1.5,3.,0.75,1.5,0.375,0.75,0.1875,0.375,0.09375,0.1875
-	FBands3 24.,48.,12.,24.,6.,12.,3.,6.,1.5,3.,0.75,1.5,0.375,0.75,0.1875,0.375,0.09375,0.1875
-E2 uses the Pgv measurements from each data window and frequency band to test individual triggers for teleseismic characteristics.
-This test is configurable with new E2 parameters. The teleseismic frequency dependent log10 Pgv amplitude ranges, for
-different sample rates are specified in the new parameter file tfparam.dat.
-New E2 parameters in E2.conf:
-	# Parameters for teleseismic filter based on multiple filter bands and window lengths
-	UseTF                   true
-	TFFile                  /app/elarms/run/params/tfparam.dat
-	TFMaxStaDist            260.    # max allowed station distance for classifying station triggers as teleseismic
-	# Window lengths are 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0 seconds
-	# TFMinWindowIndex starts at 0, so index 1 is 0.2sec. Require at least this much data for the filter band amplitude calculations
-	TFMinWindowIndex        2       # wait for a measurement at this window length from at least TFNumStaRequired stations
-	TFLow                   6       # the low frequency filter-band index (0 to NUM_FBANDS-1) An index in the FBands# filter-bands 
-	TFHigh                  2       # the high frequency filter-band index (0 to NUM_FBANDS-1)
-	TFM2                    1.25    # the trigger is teleseismic only if logPgv[TFLow] > TFM2 * logPgv[TFHigh] + TFB2
-	TFB2                    1.40
-	TFChannelReverse        false   # true: allow a trigger to change from teleseismic to non-teleseismic
-	                                # false: do not allow a trigger to change from teleseismic to non-teleseismic
-	TFEventReverse          false   # true: allow an event to change from teleseismic to non-teleseismic
-	                                # false: do not allow an event to change from teleseismic to non-teleseismic
-	TFDisagreeSta           1       # 0: if two channels at a station disagree, count the station as non-teleseismic
-	                                # 1: if two channels at a station disagree, count the station as teleseismic
-	TFNumStaRequired        2       # the number of agreeing stations required to declare the state of the event
-Teleseismic Trigger Test: If all 9 logPgv values are within the ranges for the data window length (tfparam.dat) and
-(logPgv[TFLow] - (TFM2*logPgv[TFHigh] + TFB2)) is > 0, the trigger is classified as teleseismic.
+version 2.0.24 2016-07-11  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	- decimod: added new parameters to the DM config file for specifying polygon regions with a regional minimum
+		magnitude for alerts. No alerts will be sent for events outside of all specified regions. In each
+		region, alerts will be sent only when the DM magnitude exceeds the region magnitude threshold. Alerts
+		will continue to be sent for an event that previously had a magnitude above the threshold, even if
+		the event magnitude for later updates drops below the threshold. The region latitude and longitude pairs
+		specify a polygon in counterclockwise order. At least three distinct lat,lon pairs are required. The
+		last lat,lon pair can optionally be the same as the first lat,lon pair. If the last lat,lon pair is not
+		the same as the first pair, the program will close the polygon. Multiple regions can be specified by
+		the "Regions" parameter.
 
-The test for a teleseismic event is in E2Alert::checkTeleFBands()
-  If the triggers from TFNumStaRequired stations within TFMaxStaDist km are teleseismic, then flag the event as
-    teleseismic and block the alert.
-  else if the triggers from TFNumStaRequired stations within TFMaxStaDist km are not teleseismic, then flag the event
-    as NON-teleseismic do not block the alert.
-  else if all stations are within TFMaxStaDist km, block the current alert and wait for more data.
-  else if some stations are greater than TFMaxStaDist km, flag the event as undecided and do not block the alert.
+		The new default region for California combines the ANSS CI and NC polygon regions.
+		Regions CA
+		CA_MinMag 3.0
+		CA_latlon 37.43,-117.76,39.0,-120,42.0,-120,42.0,-125,42.0,-126,40.0,-126, 34.5,-121.25,31.5,-118.5,31.5,-114,34.5,-114,37.43,-117.76
 
-o) Added EWP2 method to the ProcessBuffer api to get waveform data for teleseismic amplitude measurements.
-o) Fixed a bug in E2Trigger.cc that prevented negative maximum Pd values from updating the station and event magnitudes.
-o) Added a check for near-flat-line data in ToGroundTSPModule.cc that could cause a numerical overflow and program crash.
-o) Fixed EWP2.cc bug that caused a fixed size array that holds four seconds of trigger packet information to overflow and
-crash when the packet size was small enough to have more than 20 packets within 4 seconds. (For example NP.7040.HNZ)
-The fix will allow any number of packets within 4 seconds.
-o) Added Mailx parameter to EWP2 to specify the path to mailx, which is used to send a warning email when messages cannot be
-sent to the activemq.
+		Multiple regions can also be input. For example:
+		Regions NC, CI
+		NC_MinMag 2.5
+		NC_latlon 39.0,-120,42.0,-120,42.0,-125,42.0,-126,40.0,-126,34.5,-121.25,37.43,-117.76,39.0,-120
+		CI_MinMag 2.0
+		CI_latlon 34.5,-114,37.43,-117.76,34.5,-121.25,31.5,-118.5,31.5,-114,34.5,-114
+	  - dm_lib: fixed bug in DMMessageDecoder.cpp for case of FINITE_FAULT type messages. Add another decimal value
+	  	to the output format for CoreEventInfo.lat and lon.
+version 1.1.10 2011-11-16  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - decimod: changed AlgorithmEvent.cpp to force the magnitude uncertainty to be 0.5 and the
+		likelihood to be 0.7 for all incoming algorithm messages. This "correction" will be
+		shown in the DM logfile.
+		Changed topic to from "eew.sys.dm.data" to "eew.sys.dmu.data". The magnitude/likelihood
+		filter now reads from "dmu" and write to "dm".
+		The heartbeats still go to "eew.sys.dm.hb".
+	  - dm_lib: removed the setTimeToLive() calls from the previous revision. Discovered that the
+		pendingMessageLimitStrategy in activemq.xml is a better way to handle message topic
+		buffer overflow problems.
+version 1.1.9 2011-10-17  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: call to producer->setTimeToLive() to HBForward and DMMessageSender. It was already in
+		HBProducer. HBProducer and HBForward set the message time to live at 3 * heartbeat interval,
+		which defaults to 3 * 5 = 15 seconds for heartbeat messages to live in activeMQ server.
+		DMMessageSender sets the message time to live to 5 minutes for all messages. This would be the
+		event messages from the algorithms and the event messages from decimod.
+		- More changes to DMMessageDecoder.cpp to parse log files.
+	  - decimod one line change to add argument to HBForward hbf() for message timeout.
+	  - examples/parse_logs.cpp: changes to parse old log files.
+version 1.1.8 2011-09-30  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: removed "using namespace cms" and others from .h files to avoid conflicts with
+			other class libraries (e.g. Connection class)
+		    add XMLPlatformUtils::Initialize() and XMLPlatformUtils::Terminate() calls.
+	  - examples: updated parse_logs.cpp to work on filename arguments as well as directories
+	  - ChangeLog: changed the order of the messages in this file.
+version 1.1.7 2011-08-11  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+		-Added capability to handle new message category(LIVE,TEST) attribute. Only algorithm
+		messages with the same getMessageCategory() are associated together.The DM does not associate
+		test messages with live messages, but otherwise the functionality is the same for live and test
+		messages. (In the DM code messages with the same getMessageCategory() are associated together.
+		There is no reference to test or live.)
+		. associate algorithm messages and create a DM event message
+		. update event information for the same event id and increasing version number
+		. reject messages with the same id and the same or lower version number
+		. reject messages with old origin times
+		. process a delete message
 
-o) Added calculation of station travel time error for iterations that do not call the location method. This insures that the
-event trigger lines in the log file always show a valid "tterr" column.
+		The DM log file has a "CAT" column with "live" or "test":
 
-o) Changed the log file trigger lines. The new format requires fewer lines:
-Old format
-N:1  SBB2  HHZ  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378   0 Z   58   58  8.870273e+00  1.415484e+00   58 ...
-N:2                                                                 0 E   NA
-N:3                                                                 0 N   NA
-U:1  SBB2  HHZ  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378   1 Z   58   58  8.870273e+00  1.415484e+00   58   ...
-U:2                                                                 1 E   NA
-U:3                                                                 1 N   58   51  3.004894e+00  5.610679e-01    0   ...
-U:1  SBB2  HHZ  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378   2 Z   58   58  8.870273e+00  1.415484e+00   58   ...
-U:2                                                                 2 E   58   58  6.087020e+00  7.784344e-01   58  ...
-U:3                                                                 2 N   58   51  3.004894e+00  5.610679e-01    0  ...
-New format
-N:  SBB2  HHZ  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378  0 Z   58   58  8.870273e+00  1.415484e+00   58 ...
-U:  SBB2  HHN  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378  1 N   58   51  3.004894e+00  5.610679e-01    0 ...
-U:  SBB2  HHE  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378  2 E   58   58  6.087020e+00  7.784344e-01   58 ...
+	   SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: onsite        10241   0 test    new  3.500  1.45  38.100  0.35 -118.000  0.36   9.10   0.79 11-08-10 23:36:57.912  23.55  0.85
+Corrected: onsite        10241   0 test    new  3.500  1.00  38.100  0.35 -118.000  0.36   9.10   0.79 11-08-10 23:36:57.912  20.00  0.85
+Associate: [onsite,10241,0,test] with dm 8921 [elarms,8737,0,test]: sec:0.44 km:190.41 [vs,8728,0,test]: sec:0.54 km:48.25 [onsite,10241,0,test]: sec:1.66 km:244.98 misfit: 1.641
+  Created:     dm         8922  -1 test    new  3.500  1.00  38.100  0.35 -118.000  0.36   9.10   0.79 11-08-10 23:36:57.912  20.00  0.85 [onsite,10241,0,test]
+Published:     dm         8922   0 test    new  3.500  1.00  38.100  0.35 -118.000  0.36   9.10   0.79 11-08-10 23:36:57.912  20.00  0.85  0.00   0.0   0.0 [onsite,10241,0,test]
 
-o) Added trigger teleseismic filter lines to the log file:
-     sta chan net loc      lat       lon            trigger-time  U C  lead  lag npts  Pgv1  T1  Pgv2 T2  Pgv3 T3  Pgv4 T4  Pgv5 T5  Pgv6 T6  Pgv7 T7  Pgv8 T8  Pgv9 T9 TTest TF
-F:  SBB2  HHZ  CI  --  34.6884 -117.8242 2016-08-03T00:00:00.378  0 Z 30.00 0.10 3011 -4.068 T -4.519 T -5.037 T -5.603 F -5.562 F -5.523 F -5.258 T -4.672 T -4.743 T -0.361 F
-The test for a teleseismic trigger is T1 to T9 are true and TTest is > 0., where TTest is logPgv[TFLow] - (TFM2*logPgv[TFHigh] + TFB2);
-	U: trigger update index
-	C: component
-	lead: the start of the data window for the IIR filter in seconds before the trigger time
-	lag: the end of the data window for the IIR filter in seconds after the trigger time
-	the 11 lag values are: 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 and 2.0 seconds.
-	npts: the number of samples in the data window for the IIR filter
-	PgvN: Peak ground velocity amplitude measure for this time window and the N'th frequency band.
-	TN: T/F - true of false - is the PgvN value between the amplitude limits for a teleseismic signal. Amplitude limits are in tfparam.dat
-	TTest: logPgv[TFLow] - (TFM2*logPgv[TFHigh] + TFB2)
-	TF: If all T2 through T9 are 'T' and TTest (logPgv[TFLow] - (TFM2*logPgv[TFHigh] + TFB2)) is > 0, the trigger is classified as teleseismic
+           SYSTEM           ID VER  CAT   TYPE    MAG  MAGU     LAT  LATU      LON  LONU    DEP   DEPU                  TIME  TIMEU    LH MSFIT  MXKM  MXDT
+ Received: elarms         8737   1 live update  0.514  0.45  35.040  0.34 -114.980  0.36   9.30   1.19 11-08-10 23:36:55.812  12.45  0.90
+  Updated: elarms         8737   1 live update  0.514        35.040       -114.980
+  Changed:     dm         8920   1 live update +0.008        +0.010         +0.005                                                        -0.01  -0.5
+Published:     dm         8920   2 live update  0.511  0.41  35.520  0.24 -115.483  0.25   9.30   0.66 11-08-10 23:36:55.784  10.57  0.90  0.71  70.9   0.1 [elarms,8737,1,live][vs,8728,0,live]
+	  - dm_lib:
+		1) Added a new "category" attribute to the algorithm and DM messages to indicate that the
+		   message is either "live" or "test". The attribute is in the <event_message> node of the
+		   message. For example, a test VS message starts with:
 
-o) Correct the magnitude calculation in E2Magnitude.cc for a single-station-alert. Currently a single-station-alert is not allowed.
-o) Correct the formats in some snprintf() calls with size_t arguments to avoid compiler warnings when using -m64.
-o) Added a "Verbose" parameter to EWP2. The default is Verbose=1, which prints only the Trigger and T: lines to the log. To print
-the "P:" lines (packet info) and the new "F:" lines (teleseismic-filtered-amplitudes), set Verbose=2.
+		   <event_message category="test" message_type="new" orig_sys="vs" version="0">
 
-o) Added new option to the ewfeeder class (lib wplite) to read Tracebuf2 messages from a tank file, optionally gzipped. The
-EWP2 new command line arguments are "replay=" and "ChannelFile=":
-EWP2 ../params/EWP2.conf replay=${TANK_DIR}/19991016_hectormine.01.tnk.gz ChannelFile=${TANK_DIR}/19991016_hectormine.dat
-The replay= argument can point to a tankfile or a directory of tankfiles.
+		   Non-test messages have category="live".
 
-o) Added E2 command line argument "-replay". This tells E2 to use the TrigBufferSeconds parameter (default=0.1 seconds) to 
-limit the trigger pool that is passed to the associator to TrigBufferSeconds seconds. This is optional for the replay.
+		2) Also added "test" or "live" to the contributing algorithm comment in the dm message:
 
-o) Removed all references to leap second time. The leap second file is no longer used by EWP2 and E2.
-All epoch times in EWP2 and E2, and in the binary messages between them, are UNIX epoch time.
+		   <event_message category="test" message_type="update" orig_sys="dm" version="1">
+
+		   <core_info id="12921">
+			<!--contributors: [elarms,8737,0,test][vs,9628,0,test]-->
+			...
+
+		3) In the dm library, an enum MessageCategory {LIVE, TEST} member was added to the
+		   CoreEventInfo class. The message subclass constructors default the member to LIVE and
+		   position the argument after the version number, so that most likely your code will not
+		   need to be changed for live messages. For example:
+
+		   class OnSiteMessage : public CoreEventInfo
+		   {
+			public:
+			OnSiteMessage(int id=-9,
+			    double mag=-9.9,
+			    double mag_uncer=-9.9,
+			    double lat=-99.9,
+			    double lat_uncer=-99.9,
+			    double lon=-999.9,
+			    double lon_uncer=-999.9,
+			    double dep=-9.9,
+			    double dep_uncer=-9.9,
+			    double o_time=-99999.99,
+			    double o_time_uncer=-9.9,
+			    double likelihood=-9.9,
+			    enum nudMessageType type = NEW,
+			    int ver = 0,
+			    enum MessageCategory category = LIVE,
+			    string mag_units = "Mw",
+			    ...
+		    Also added setMessageCategory(enum MessageCategory category)
+		    and enum MessageCategory getMessageCategory() methods to the message classes.
+version 1.1.6 2011-06-29  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary: all message use 3-decimal second time format. VS time assumed to be true epoch.
+	  - dm_lib: removed code that changed dm output message time format to work with old UD
+	  - decimod:  only changed version number
+	  - examples: changed user/password in hb_receiver.cpp and receiver.cpp
+version 1.1.5 2011-06-28  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: changes to CoreEventInfo::coutCore() and CoreEventInfo::updateFrom print formats.
+	  - decimod:  changes to the "decimod -d 1" output.
+	  - examples: replaced hard-wired origin times with time(NULL), to make programs easier to run.
+version 1.1.4 2011-06-21  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: changed time format in observations and predictions to be iso-string instead
+		of double. Removed DMMessageReceiver::fixVSTime which was converting VS times from
+		nominal to true epoch. VS times must be true epoch when passed as doubles to
+		the dm_lib interface.
+		- removed check for double time values in messages. All time values must be
+			iso-string: "2011-05-06T18:12:37.038Z"
+		- added format-pretty-print to Xerces-2.8 serializer.
+	  - decimod:  changed all time(NULL) calls to nepoch_to_tepoch(time(NULL)), so that
+		time comparisons to determine "age" are done correctly. (all time doubles in
+		message objects are true epoch times)
+	  - examples: updated the *.xml files to show the current format which uses iso-time strings
+		in the observations and predictions and 3 decimal points in the seconds field.
+version 1.1.3 2011-06-17  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: Fixed time format in XML messages to include 3 decimal points (msecs).
+		added support for Xerces-2.8 with -DXERCES_2
+		fixed memory leak
+	  - decimod:  added "-r secs" option to specify an auto-republish interval
+version 1.1.2 2011-06-15  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - dm_lib: Changed the coutCore() line. changed sprintf to snprintf. changed lat,lat_uncer,
+		lon,lon_uncer null values (for easier printing). added doxygen comments.
+	  - decimod: add doxygen comments. changed log output. completed implementation of
+		useRepublishThreshold option (decimod -m 1)
+version 1.1.1 2011-06-13  Ivan Henson	 <henson@seismo.berkeley.edu>
+	* Summary:
+	  - fixed bug caused by check for currMisfitValue != NULL_MISFIT in
+	    DecisionModule::associateAlgorithmEvent, instead of currMisfitValue <= MAX_MISFIT, which is used
+	    in DecisionModule::processDMEvents. An infinited loop occurred when 
+		    if( (delta_time < MAX_TIME_TO_EVENT) && (dist_km < MAX_DISTANCE_TO_EVENT) )
+	    is true, and
+		    if (misfit > MAX_MISFIT)
+	    is also true.
+	  - fixed bug in DecisionModule::discardOldDMEvents: missing pointer it++ caused an infinite loop.
+	  - changed the stdout output of decimod when the command line argument "-d 1" is used. The new
+	    output is easier to read and contains information about the changes to later versions of
+	    the same DMEvent id.

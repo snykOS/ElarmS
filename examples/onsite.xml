@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-16" standalone="no" ?>
+<event_message category="live" message_type="new" orig_sys="onsite" version="0">
+
+  <core_info id="4557299">
+    <mag units="Mw">3.4000</mag>
+    <mag_uncer units="Mw">0.5000</mag_uncer>
+    <lat units="deg">38.8000</lat>
+    <lat_uncer units="deg">0.5000</lat_uncer>
+    <lon units="deg">-122.8200</lon>
+    <lon_uncer units="deg">0.5000</lon_uncer>
+    <depth units="km">8.0000</depth>
+    <depth_uncer units="km">5.0000</depth_uncer>
+    <orig_time units="UTC">2011-08-11T23:22:40.769Z</orig_time>
+    <orig_time_uncer units="sec">20.0000</orig_time_uncer>
+    <likelihood>0.8000</likelihood>
+  </core_info>
+
+  <onsite_info>
+    <pgv_pred number="2">
+      <obs>
+        <SNCL>STA1.NET.CHAN.LOC</SNCL>
+        <value units="cm/s">32158.5490</value>
+        <value_uncer units="cm/s">215.1581</value_uncer>
+        <lat units="deg">33.1200</lat>
+        <lon units="deg">-123.4500</lon>
+        <app_rad units="km">10.5000</app_rad>
+        <time units="UTC">2011-08-11T23:22:42.769Z</time>
+        <time_uncer units="sec">50.0000</time_uncer>
+      </obs>
+      <obs>
+        <SNCL>STA2.NET.CHAN.LOC</SNCL>
+        <value units="cm/s">2158.5490</value>
+        <value_uncer units="cm/s">21.1500</value_uncer>
+        <lat units="deg">32.8500</lat>
+        <lon units="deg">-122.0200</lon>
+        <app_rad units="km">10.5000</app_rad>
+        <time units="UTC">2011-08-11T23:22:43.769Z</time>
+        <time_uncer units="sec">50.0000</time_uncer>
+      </obs>
+    </pgv_pred>
+  </onsite_info>
+
+</event_message>

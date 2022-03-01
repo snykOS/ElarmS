@@ -1,0 +1,46 @@
+QLIB2_DIR      = ../../elarms/qlib2
+
+AMQ_INCL	= -I../../opensrc/include/activemq-cpp-3.4.2
+AMQ_LIB		= -L../../opensrc/lib -lactivemq-cpp
+
+APR_INCL	= -I../../opensrc/include/apr-1
+APR_LIB		= -L../../opensrc/lib -lapr-1 -laprutil-1
+
+XERCES_INCL	= -I../../opensrc/include
+XERCES_LIB	= -L../../opensrc/lib -lxerces-c
+
+DM_INCL		= -I../dm_lib
+DM_LIB		= -L../dm_lib -ldm_lib
+
+QLIB2_INCL	= -I$(QLIB2_DIR)
+QLIB2_LIB	= -L$(QLIB2_DIR) -lqlib2
+
+EWUTIL_INCL	= -I../../elarms/ewutil
+EWUTIL_LIB	= -L../../elarms/ewutil -lewutil
+
+
+INCL		= $(QLIB2_INCL) $(EWUTIL_INCL) $(AMQ_INCL) $(APR_INCL) $(XERCES_INCL) $(DM_INCL)
+
+LIBS		= -L../../elarms/tnstd -ltnstd -L../../elarms/tnchnl -ltnchnl $(DM_LIB) $(EWUTIL_LIB) $(AMQ_LIB) $(APR_LIB) $(QLIB2_LIB) \
+			$(EWUTIL_LIB) $(TNSTD_LIB) $(XERCES_LIB)
+
+NOWARN	= -erroff=wvarhidemem,temwhilespec,temspecend,hidevf
+
+CCC	= CC
+CCFLAGS	= -g -O0 $(INCL) -library=stlport4 $(NOWARN) -Dstatic_config
+
+OBJS	= AlgorithmEvent.o DMEvent.o DecisionModule.o decimod_main.o
+
+all: decimod
+
+decimod: $(OBJS)
+	$(CCC) $(CCFLAGS) -o $@ $(OBJS) $(LIBS)
+
+%.o:	%.cpp
+	$(CCC) -c $(CCFLAGS) $<
+
+clean:
+	-rm *.o
+
+veryclean:	clean
+	-rm decimod

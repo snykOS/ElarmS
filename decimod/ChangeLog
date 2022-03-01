@@ -1,0 +1,15 @@
+=======================================
+Changes in 2.0.22 2016-01-25
+========================================
+Ivan Henson
+o) Added code to handle system=DMREVIEW type=DELETE messages. If the event id is still in dm_events, then all contributing
+algorithms are removed, so that the next call to publishDMEvents() will send out a cancellation message.
+If the event id is no longer in dm_events, just send a cancellation message.
+=======================================
+Changes in 2.0.11 2014-04-08
+========================================
+Ivan Henson
+o) Changed alg_addr, alg_port to alg_uri and alert_addr, alert_port to alg_uri. New config file parameters are AlgorithmURI and
+AlertURI. This allows you to control the URI parameters such as failover (failover:(tcp://localhost:61616,anotherhost:61616))
+o) Check for alg_uri == alert_uri and use one shared connection for DMMessageReceiver and DMMessageSender
+o) Add GetProp.cc and GetProp.h so don't need elarms ewutil library

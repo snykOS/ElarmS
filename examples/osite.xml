@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<event_message message_type="new" orig_sys="onsite" version="0">
+
+  <core_info id="4557299">
+    <mag units="Mw">3.4000</mag>
+    <mag_uncer units="Mw">0.5000</mag_uncer>
+    <lat units="deg">38.8000</lat>
+    <lat_uncer units="deg">0.5000</lat_uncer>
+    <lon units="deg">-122.8200</lon>
+    <lon_uncer units="deg">0.5000</lon_uncer>
+    <depth units="km">8.0000</depth>
+    <depth_uncer units="km">5.0000</depth_uncer>
+    <orig_time units="UTC">2011-05-28T06:29:54Z</orig_time>
+    <orig_time_uncer units="sec">20.0000</orig_time_uncer>
+    <likelihood>0.8000</likelihood>
+  </core_info>
+
+</event_message>
+
