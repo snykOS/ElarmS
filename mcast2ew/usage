@@ -1,0 +1,4 @@
+To allow packet capture on Linux, as root:
+
+setcap cap_sys_resourc=eip <path-to-mcast2ew>
+
